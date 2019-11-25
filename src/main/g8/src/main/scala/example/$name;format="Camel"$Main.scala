@@ -17,7 +17,7 @@ object ExampleMain extends App {
 class GreeterService extends GreeterGrpc.Greeter {
   override def greet(req: GreetRequest): Future[GreetResponse] = {
     Future.successful(GreetResponse(
-      message = s"Hello, ${req.name}!"
+      message = s"Hello, ${req.name}"
     ))
   }
 }
