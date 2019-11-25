@@ -1,6 +1,6 @@
 # $organization$ project
 
-##1. Run example app
+## 1. Run example app
 ```
 sbt 
 > compile
@@ -10,7 +10,7 @@ sbt
 choose `example.ExampleMain` when prompted
 
 
-##2. Consume gRPC endpoint through UI
+## 2. Consume gRPC endpoint through UI
 
 Pre-requisite: `grpcui` (setup instructions: https://github.com/fullstorydev/grpcui)
 
@@ -20,7 +20,7 @@ grpcui -plaintext -port 8181 localhost:8080
 ```
 Navigate to http://127.0.0.1:8181 
 
-##3. Consume gRPC endpoint through CLI
+## 3. Consume gRPC endpoint through CLI
 
 Pre-requisite: `grpcurl` (setup instructions: https://github.com/fullstorydev/grpcurl)
 
@@ -36,7 +36,7 @@ Expected output
 }
 ```
 
-##4. Run Mock Server
+## 4. Run Mock Server
 ```
 sbt 
 > compile
