@@ -36,7 +36,6 @@ grpcui -plaintext -port 8181 localhost:8080
 Navigate to http://127.0.0.1:8181 
 
 
-
 ## 4. Run Mock Server
 ```
 sbt 
@@ -46,4 +45,31 @@ sbt
 ```
 choose `$organization$.MockServer` when prompted`
 
-**Note:** _Only one, example main or mock server can run at a time, as both use port 8080_
+
+## 5. Consume mock gRPC endpoint through CLI
+
+Pre-requisite: `grpcurl` (setup instructions: https://github.com/fullstorydev/grpcurl)
+
+```
+grpcurl -plaintext -d '{"name": "Alex"}' localhost:9090 com.tremorvideo.Greeter/Greet
+```
+
+Expected output
+
+```arma.header
+{
+
+}
+```
+
+
+## 6. Consume mock gRPC endpoint through UI
+
+Pre-requisite: `grpcui` (setup instructions: https://github.com/fullstorydev/grpcui)
+
+In a separate terminal window start `grpcui`
+```
+grpcui -plaintext -port 9191 localhost:9090
+```
+Navigate to http://127.0.0.1:9191 
+
