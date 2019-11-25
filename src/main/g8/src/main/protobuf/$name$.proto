@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  scope: FILE
+  flat_package: true
+  single_file: true
+  lenses: true
+};
+
+package $organization$;
+
+option java_package = "$organization$";
+
+message GreetRequest {
+    string name = 1;
+}
+
+message GreetResponse {
+    string message = 1;
+}
+
+service Greeter {
+    rpc Greet (GreetRequest) returns (GreetResponse) {}
+}
