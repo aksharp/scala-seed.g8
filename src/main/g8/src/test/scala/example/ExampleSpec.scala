@@ -22,7 +22,7 @@ class ExampleSpec extends WordSpec with Matchers {
     )
     val result = Await.result(futureResult, Duration.Inf)
     val expectedResult = GreetResponse(
-      message = s"Hello, ${name}"
+      message = "Hello, " + name + "!"
     )
     result should be(expectedResult)
 
