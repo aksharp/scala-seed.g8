@@ -1,5 +1,5 @@
 ThisBuild / name := "$name$"
-ThisBuild / scalaVersion := "2.13.1"
+ThisBuild / scalaVersion := "2.13.4"
 ThisBuild / version := "$version$"
 ThisBuild / organization := "$organization$"
 
@@ -7,13 +7,13 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 resolvers += Resolver.sonatypeRepo("releases")
 resolvers += Resolver.mavenLocal
 
-addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.0" cross CrossVersion.full)
+addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.3" cross CrossVersion.full)
 enablePlugins(JavaAppPackaging)
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.0.8",
-  "org.scalacheck" %% "scalacheck" % "1.14.2",
-  "io.grpc" % "grpc-services" % "1.25.0",
+  "org.scalatest" %% "scalatest" % "3.2.3",
+  "org.scalacheck" %% "scalacheck" % "1.15.2",
+  "io.grpc" % "grpc-services" % "1.35.0",
   "io.grpc" % "grpc-netty" % scalapb.compiler.Version.grpcJavaVersion,
   "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion,
   "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
