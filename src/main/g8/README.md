@@ -51,7 +51,7 @@ choose `$organization$.MockServer` when prompted`
 Pre-requisite: `grpcurl` (setup instructions: https://github.com/fullstorydev/grpcurl)
 
 ```
-grpcurl -plaintext -d '{"name": "Alex"}' localhost:9090 com.tremorvideo.Greeter/Greet
+grpcurl -plaintext -d '{"name": "Alex"}' localhost:9090 $organization$.Greeter/Greet
 ```
 
 Expected output
