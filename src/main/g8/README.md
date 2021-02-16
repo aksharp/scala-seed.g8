@@ -14,7 +14,7 @@ choose `example.ExampleMain` when prompted
 Pre-requisite: `grpcurl` (setup instructions: https://github.com/fullstorydev/grpcurl)
 
 ```
-grpcurl -plaintext -d '{"name": "Alex"}' localhost:8080 com.tremorvideo.Greeter/Greet
+grpcurl -plaintext -d '{"name": "Alex"}' localhost:8080 $organization$.Greeter/Greet
 ```
 
 Expected output
