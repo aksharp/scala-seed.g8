@@ -13,7 +13,7 @@ enablePlugins(JavaAppPackaging)
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.3",
   "org.scalacheck" %% "scalacheck" % "1.15.2",
-  "io.grpc" % "grpc-services" % "1.35.0",
+  "io.grpc" % "grpc-all" % "1.35.0",
   "io.grpc" % "grpc-netty" % scalapb.compiler.Version.grpcJavaVersion,
   "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion,
   "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
