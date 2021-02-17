@@ -1,4 +1,4 @@
-This is a [Giter8][g8] template for Scala seed project. 
+This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dependencies on private and local repos.
 
 [comment]: <> (It will generate a Scala project that will include)
 
