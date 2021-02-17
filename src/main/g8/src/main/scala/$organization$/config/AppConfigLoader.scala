@@ -20,12 +20,12 @@ object AppConfigLoader extends LazyLogging {
       .headOption
       .map { env =>
         val config: AppConfig = ConfigSource
-          .resources(s"${env}.conf")
+          .resources(s"$"$"${env}.conf")
           .load[AppConfig]
           .fold(
             failure => {
               val errorMessage = failure.toList.map(_.description).mkString(", ")
-              logger.error(s"Unable to deserialize AppConfig ERROR: ${errorMessage}")
+              logger.error(s"Unable to deserialize AppConfig ERROR: $"$"${errorMessage}")
               exit(0)
             },
             good => good
