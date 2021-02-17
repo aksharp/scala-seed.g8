@@ -46,7 +46,7 @@ object CachableService {
   implicit def unwrapSet[A](set: Option[Set[A]]): Set[A] = set.getOrElse(Set.empty)
 }
 
-trait CachableService[KEY, VALUE] {
+trait CachableService[KEY, VALUE] with LazyLogging {
   protected val warmupType: WarmupType = NoWarmup
   protected val keysToWarmup: Seq[KEY] = Seq.empty[KEY]
   protected implicit val ec: ExecutionContext = ExecutionContext.global
@@ -62,26 +62,22 @@ trait CachableService[KEY, VALUE] {
   def isWarmedUp(minCacheSize: Int) = cache.size() > minCacheSize
 
   private def blockingWarmup(list: Seq[KEY]): Unit = {
-    val tName = Thread.currentThread().getName
-    println(s"### [$tName] START WARMUP")
+    logger.info(s"### START WARMUP")
     list.foreach(getFromCacheOrBlockToQueryAndAddToCache)
-    println(s"### [$tName] END WARMUP")
+    logger.info(s"### END WARMUP")
   }
 
   private def nonBlockingWarmup(list: Seq[KEY])(implicit ec: ExecutionContext): Unit = {
-    val tName = Thread.currentThread().getName
-    println(s"### [$tName] START FAST STARTUP WARMUP")
+    logger.info(s"### START FAST STARTUP WARMUP")
     if (list.nonEmpty)
       list.foreach(getFromCacheOrCacheMissAndNonBlockingQueryToPopulateCache)
     else
-      println(s"### [$tName] NO KEYS SELECTED FOR WARMUP. DONE.")
+      logger.info(s"### NO KEYS SELECTED FOR WARMUP. DONE.")
   }
 
   def getFromCacheOrCacheMissAndNonBlockingQueryToPopulateCache(key: KEY)(implicit ec: ExecutionContext): Option[VALUE] = {
-    val tName = Thread.currentThread().getName
     getFromCache(key)
       .map { value =>
-        println(s"### [$tName] >>>--RETURN-->>> CACHE HIT!!! Result: $value")
         value
       }
       .orElse {
@@ -92,21 +88,15 @@ trait CachableService[KEY, VALUE] {
             value <- maybeValue
           } yield {
             addToCache(key, value)
-            println(s"### [$tName] added to cache. key: $key value: $maybeValue")
-            println(
-              s"### [$tName] cache is now \n${cache.asScala.map { case (k, v) => s"key: $k value: $v" }.mkString("\n")}"
-            )
             value
           }
         }
-        println(s"### [$tName] :::--RETURN--::: CACHE MISS!!! NO Result :(")
         None
       }
   }
   def getFromCacheOrBlockToQueryAndAddToCache(key: KEY): Option[VALUE] = {
     getFromCache(key)
       .map { b =>
-        println(s"### got from cache. Result: $b")
         Option(b)
       }
       .getOrElse {
@@ -114,8 +104,6 @@ trait CachableService[KEY, VALUE] {
         for {
           value <- query(key)
         } yield {
-          println(s"### added to cache. key: $key value: $b")
-          println(s"### cache is now \n${cache.asScala.map { case (k, v) => s"key: $k value: $v" }.mkString("\n")}")
           addToCache(key, value)
           value
         }
