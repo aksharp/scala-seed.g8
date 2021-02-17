@@ -37,7 +37,7 @@ class FeatureFlagsPollerMonixImpl extends FeatureFlagsPoller[Task] with LazyLogg
 
       new MonixKafkaProducer[ObservableAndTraceable, FeatureFlagsJson](
         config = TremorKafkaProducerConfig(
-          clientId = s"${appConfig.appName}-feature-flag-client",
+          clientId = s"$"$"${appConfig.appName}-feature-flag-client",
           topic = s"observable-feature-flags",
           bootstrapServers = appConfig.observableDynamicConfigProducer.bootstrapServers
         ),

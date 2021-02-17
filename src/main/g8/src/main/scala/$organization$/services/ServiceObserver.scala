@@ -102,7 +102,7 @@ class ServiceObserverImpl(
       )
     )
   } yield {
-    logger.info(s"service config: ${appConfig.serviceInstanceUrl(serviceInstanceCorrelationId)}")
+    logger.info(s"service config: $"$"${appConfig.serviceInstanceUrl(serviceInstanceCorrelationId)}")
   }
 
 }
