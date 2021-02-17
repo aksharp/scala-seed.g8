@@ -1,5 +1,6 @@
 package $organization$.services
 
+import com.tremorvideo.{GreetRequest, GreetResponse, GreeterGrpc}
 import cats.effect.Clock
 import com.tremorvideo.lib.api.ObservableServiceInstanceKeySerde._
 import com.tremorvideo.lib.api.ObservableServiceInstanceStartup.ServiceType
@@ -63,14 +64,13 @@ class ServiceObserverImpl(
         supportedApis = Seq(
           SupportedKafkaProducerApi(keyType = ObservableServiceInstanceKey.getClass.getName, valueType = ObservableServiceInstanceValue.getClass.getName),
           SupportedKafkaProducerApi(keyType = "ObservableAndTraceable", valueType = FeatureFlagsJson.getClass.getName),
-          // TODO: !!!replace-me!!! add supported grpc api and rest api
-//          SupportedServerGrpcApi(
-//            serviceName = ???.getServiceName,
-//            methodName = ???.getBareMethodName,
-//            requestType = ???.getClass.getName,
-//            responseType = ???.getClass.getName,
-//            serverPort = 8080
-//          )
+          SupportedServerGrpcApi(
+            serviceName = GreeterGrpc.METHOD_GREET.getServiceName,
+            methodName = GreeterGrpc.METHOD_GREET.getBareMethodName,
+            requestType = GreetRequest.getClass.getName,
+            responseType = GreetResponse.getClass.getName,
+            serverPort = 8080
+          ),
           //          SupportedServerRestApi(uri = "_health", method = "GET")
         ),
         supportedFeatureFlags = supportedFeatureFlags.map {
