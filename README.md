@@ -17,6 +17,26 @@ This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dep
 3. Cacheable service (examples in bidderff for now)
 4. Integration test via gRPC endpoint
 
+// DEPENDENCIES:
+
+Libraries:
+1) lib-kafka
+2) lib-api
+3) lib-feature-flags
+
+Plugins:
+1) ScalaPB
+4) scalapb-grpc-client-server-mocks-codegen-plugin
+   
+Applications:
+1) Observable Persister
+2) Hamsa (optional)
+
+Infrastructure:
+1) Consul (feature flags and service discovery)
+2) Kafka Cluster
+3) PostgreSQL (observable persister storage)
+
 Start with this to generate a project from the template:
 ```
 sbt new aksharp/scala-seed.g8
