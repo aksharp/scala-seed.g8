@@ -6,7 +6,8 @@ import org.scalatest.wordspec.AnyWordSpec
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext}
 
-class ExampleSpec extends AnyWordSpec with Matchers {
+// todo: move to /it directory to run separately via sbt
+class IntegrationTest extends AnyWordSpec with Matchers {
 
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global
 

@@ -1,18 +1,11 @@
 package $organization$
 
-import cats.effect.Clock
-import $organization$.config.{AppConfig, AppConfigLoader}
-import $organization$.feature.flags.ExampleFeatureFlags
-import $organization$.feature.flags.setup.{FeatureFlagsPoller, FeatureFlagsPollerMonixImpl}
-import $organization$.services._
-import $organization$.util.WarmUp
 import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
 import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable}
 import com.tremorvideo.lib.feature.flags.FeatureFlagsParent
 import com.typesafe.scalalogging.LazyLogging
-import monix.eval.Task
-import monix.execution.Scheduler.Implicits.global
-
+import $organization$.services._
+import $organization$.grpc._
 import java.util.concurrent.{ArrayBlockingQueue, BlockingQueue}
 
 object Main extends LazyLogging {
@@ -23,6 +16,10 @@ object Main extends LazyLogging {
     new ArrayBlockingQueue[(ObservableAndTraceable, FeatureFlagsJson)](
       observationQueueCapacity
     )
+
+  val supportedFeatureFlags: List[FeatureFlagsParent[Task]] = List(
+    ExampleFeatureFlags // TODO: !!!replace-me!!! with real feature flags
+  )
 
   def main(args: Array[String]): Unit = {
 
@@ -46,9 +43,6 @@ object Main extends LazyLogging {
 
     // feature flags
     val featureFlagsPoller: FeatureFlagsPoller[Task] = new FeatureFlagsPollerMonixImpl
-    val supportedFeatureFlags: List[FeatureFlagsParent[Task]] = List(
-      ExampleFeatureFlags // TODO: !!!replace-me!!! with real feature flags
-    )
 
     // observable service
     val serviceObserver = new ServiceObserverImpl(
@@ -58,7 +52,12 @@ object Main extends LazyLogging {
     )
 
     // application code: services, caches, etc.
-    // !!!replace-me!!! TODO:// initialize services here
+    val greeterService = new GreeterServiceImpl
+
+    // grpc services / routes
+    val greeterGrpcService = new GreeterGrpcService(
+      greeterService = greeterService
+    )
 
     // run
     (for {
@@ -70,7 +69,9 @@ object Main extends LazyLogging {
       _ <- serviceObserver.run()
     } yield {
       // grpc server
-      // !!!replace-me!!! TODO:// copy code here from ExampleMain in target directory
+      server.run(
+        greeter = greeterGrpcService
+      )
     }).runSyncUnsafe()
   }
 }
