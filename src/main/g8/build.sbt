@@ -70,6 +70,7 @@ scalacOptions ++= Seq(
   "-Xlint",
   "-feature",
   "-language:existentials",
+  "-language:reflectiveCalls",
   "-language:experimental.macros",
   "-language:higherKinds",
   "-language:postfixOps",

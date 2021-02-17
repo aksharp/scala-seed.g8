@@ -27,7 +27,7 @@ trait PopulateCachePoller[A, B] {
 trait PopulateCacheQueue[A, B] {
   val queueCapacity: Int
   lazy val queue: BlockingQueue[(A, B)] = new ArrayBlockingQueue(queueCapacity)
-  def addToQueue(a: A, b: B): Unit = queue.put(a, b)
+  def addToQueue(a: A, b: B): Unit = queue.put((a, b))
   val cachableService: CachableService[A, B]
 
   def rec(q: BlockingQueue[(A, B)]): Unit = {
@@ -101,7 +101,6 @@ trait CachableService[KEY, VALUE] extends LazyLogging {
         Option(b)
       }
       .getOrElse {
-        val b = query(key)
         for {
           value <- query(key)
         } yield {

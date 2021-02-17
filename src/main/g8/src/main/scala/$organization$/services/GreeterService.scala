@@ -6,9 +6,7 @@ import $organization$.feature.flags._
 import cats.data.EitherT
 import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
-import cats.implicits._
 import monix.eval.Task
-import monix.execution.Scheduler
 import $organization$.info._
 
 // service contract (interface)

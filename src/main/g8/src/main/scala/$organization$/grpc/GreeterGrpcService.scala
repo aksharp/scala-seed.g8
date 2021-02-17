@@ -1,7 +1,6 @@
 package $organization$.grpc
 
 import scala.concurrent.Future
-import $organization$.services._
 import $organization$._
 import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
