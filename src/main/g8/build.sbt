@@ -17,6 +17,9 @@ addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1")
 addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.11.3" cross CrossVersion.full)
 enablePlugins(JavaAppPackaging)
 
+configs(IntegrationTest)
+Defaults.itSettings
+
 libraryDependencies ++= Seq(
   // ff (PRIVATE REPO)
   "com.tremorvideo" %% "lib-feature-flags" % "3.1.0-SNAPSHOT", // PUBLISHED LOCALLY
