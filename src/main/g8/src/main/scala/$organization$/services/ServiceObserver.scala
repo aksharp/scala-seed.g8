@@ -1,6 +1,6 @@
 package $organization$.services
 
-import com.tremorvideo.{GreetRequest, GreetResponse, GreeterGrpc}
+import $organization$.{GreetRequest, GreetResponse, GreeterGrpc}
 import cats.effect.Clock
 import com.tremorvideo.lib.api.ObservableServiceInstanceKeySerde._
 import com.tremorvideo.lib.api.ObservableServiceInstanceStartup.ServiceType
