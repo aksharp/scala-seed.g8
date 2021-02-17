@@ -1,5 +1,6 @@
 package $organization$.util
 
+import com.typesafe.scalalogging.LazyLogging
 import java.util
 import java.util.concurrent.{ArrayBlockingQueue, BlockingQueue, Executors, ScheduledExecutorService, _}
 import scala.concurrent.duration.FiniteDuration
