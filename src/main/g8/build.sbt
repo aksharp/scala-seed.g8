@@ -33,8 +33,8 @@ libraryDependencies ++= Seq(
   "joda-time" % "joda-time" % "2.10.9",
 
   // test
-  "org.scalatest" %% "scalatest" % "3.2.3",
-  "org.scalacheck" %% "scalacheck" % "1.15.2",
+  "org.scalatest" %% "scalatest" % "3.2.3" % "test, it",
+  "org.scalacheck" %% "scalacheck" % "1.15.2" % "test, it",
 
   // grpc
   "io.grpc" % "grpc-all" % "1.35.0",

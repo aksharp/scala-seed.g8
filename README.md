@@ -1,7 +1,6 @@
 This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dependencies on private and local artifacts.
 
 // TODO: (near future)
-1. Descriptive error message in case of failure. Currently only shows Higher Kinded Type (lib feature flags)
 2. Move integration tests to it (copy from hamsa)
 3. Property based testing with Scalacheck (copy from bidderff) 
 4. Deployment (gitlab + central deploy, copy from hamsa)
@@ -9,6 +8,7 @@ This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dep
 6. Add http4s server
 7. OneOf code generation
 8. Example of high performance cacheable service (copy from bidderff)
+9. On client generation, host need to be generated: $name$.service.$data-center$.consul 
 
 
 // WORKING:
