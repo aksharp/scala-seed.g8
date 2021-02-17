@@ -1,13 +1,22 @@
 # $organization$ project
 
+## 0. Create ExampleFeatureFlags in consul KV store (iad1) under $organization$ folder with following content (to be automated?)
+```arma.header
+{
+  "allow": [],
+  "block": [],
+  "enable": true
+}
+```
+
 ## 1. Run example app
 ```
 sbt 
 > compile
-> run
+> run iad1-prod
 
 ```
-choose `example.ExampleMain` when prompted
+choose `$organization$.Main` when prompted
 
 ## 2. Consume gRPC endpoint through CLI
 
