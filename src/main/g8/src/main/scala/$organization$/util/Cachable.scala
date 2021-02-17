@@ -46,7 +46,7 @@ object CachableService {
   implicit def unwrapSet[A](set: Option[Set[A]]): Set[A] = set.getOrElse(Set.empty)
 }
 
-trait CachableService[KEY, VALUE] with LazyLogging {
+trait CachableService[KEY, VALUE] extends LazyLogging {
   protected val warmupType: WarmupType = NoWarmup
   protected val keysToWarmup: Seq[KEY] = Seq.empty[KEY]
   protected implicit val ec: ExecutionContext = ExecutionContext.global
