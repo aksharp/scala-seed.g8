@@ -1,7 +1,14 @@
 # $organization$ project
 
-## 0. Create ExampleFeatureFlags in consul KV store (iad1) under $organization$ folder with following content (to be automated?)
+## 0. Create ExampleFeatureFlags in consul KV store (to be automated?)
 ```arma.header
+Consul KV: http://consul.service.iad1.consul:8500/ui/iad1/kv/
+
+Folder Name: $name$
+
+Feature Flag Name: ExampleFeatureFlags
+
+Feature Flag Value:
 {
   "allow": [],
   "block": [],
