@@ -1,5 +1,9 @@
 package $organization$.services
 
+import $organization$._
+import $organization$.config._
+import $organization$.feature.flags._
+import cats.data.EitherT
 import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
 import cats.implicits._
@@ -45,6 +49,15 @@ class GreeterServiceImpl(
     } yield {
       greetResponse
     }).value
+      .map { either =>
+        either.fold(
+          err => {
+            // choose either Empty Reponse or response type from oneOf or log or send datadog metric here
+            GreetResponse()
+          },
+          res => res
+        )
+      }
 
   }
 
