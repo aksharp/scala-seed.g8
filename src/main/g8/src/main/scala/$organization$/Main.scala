@@ -2,9 +2,8 @@ package $organization$
 
 import cats.effect.Clock
 import $organization$.config.{AppConfig, AppConfigLoader}
-import $organization$.feature.flags.{BidResponseFeatureFlags, BlackListFeatureFlags, PlacementFeatureFlags, PriceFeatureFlags, UserDataFeatureFlags, UserTargetFeatureFlags}
+import $organization$.feature.flags.ExampleFeatureFlags
 import $organization$.feature.flags.setup.{FeatureFlagsPoller, FeatureFlagsPollerMonixImpl}
-import $organization$.grpc.{BidderController, GrpcServer}
 import $organization$.services._
 import $organization$.util.WarmUp
 import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
@@ -61,12 +60,6 @@ object Main extends LazyLogging {
     // application code: services, caches, etc.
     // !!!replace-me!!! TODO:// initialize services here
 
-
-    // grpc server
-    val runGrpcServer = Task {
-      // !!!replace-me!!! TODO:// copy code here from ExampleMain in target directory
-    }
-
     // run
     (for {
       _ <- featureFlagsPoller.run(
@@ -74,10 +67,10 @@ object Main extends LazyLogging {
         observableQueue = observableQueue,
         supportedFeatureFlags = supportedFeatureFlags
       )
-      _ <- runGrpcServer
       _ <- serviceObserver.run()
     } yield {
-      grpcServer.blockUntilShutdown()
+      // grpc server
+      // !!!replace-me!!! TODO:// copy code here from ExampleMain in target directory
     }).runSyncUnsafe()
   }
 }
