@@ -2,7 +2,7 @@ package $organization$
 
 import $organization$.config._
 import $organization$.feature.flags._
-import $organization$.flags.setup._
+import $organization$.feature.flags.setup._
 import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
 import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable}
 import com.tremorvideo.lib.feature.flags._
@@ -11,6 +11,7 @@ import $organization$.services._
 import $organization$.grpc._
 import java.util.concurrent.{ArrayBlockingQueue, BlockingQueue}
 import monix.eval.Task
+import monix.execution.Scheduler.Implicits.global
 import cats.effect.Clock
 
 object Main extends LazyLogging {
@@ -47,7 +48,7 @@ object Main extends LazyLogging {
     }
 
     // feature flags
-    val featureFlagsPoller: FeatureFlagsPoller[Task] = new FeatureFlagsPollerMonixImpl
+    val featureFlagsPoller = new FeatureFlagsPollerMonixImpl
 
     // observable service
     val serviceObserver = new ServiceObserverImpl(
