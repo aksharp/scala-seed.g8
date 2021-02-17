@@ -6,6 +6,7 @@ option (scalapb.options) = {
   scope: FILE
   flat_package: true
   single_file: true
+  preserve_unknown_fields: false
   lenses: true
 };
 
