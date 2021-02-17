@@ -4,5 +4,5 @@ import com.typesafe.scalalogging.LazyLogging
 
 trait LoggableService extends LazyLogging {
   self =>
-  logger.info(s"${self.getClass.getName} initialized")
+  logger.info(s"$"$"${self.getClass.getName} initialized")
 }
