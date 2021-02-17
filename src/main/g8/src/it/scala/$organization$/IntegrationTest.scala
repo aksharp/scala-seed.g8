@@ -13,7 +13,7 @@ class IntegrationTest extends AnyWordSpec with Matchers {
 
   // TODO: start server before testing. Unignore test afterwards
 
-  "greeter.greet test. Example test against running server returning default empty GreetResponse()" ignore {
+  "greeter.greet test. Example test against running server returning expected GreetResponse result" in {
 
     val name = "Alex"
 

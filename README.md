@@ -9,7 +9,9 @@ This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dep
 7. OneOf code generation
 8. Example of high performance cacheable service (copy from bidderff)
 9. On client generation, host need to be generated: $name$.service.$data-center$.consul 
-10. maybe proto2slate documentation, lib-api or per service? 
+10. maybe proto2slate documentation, lib-api or per service?
+11. Traffic control (example: go through canary stack) on generated grpc client (via plugin) should check if caller passed "canary flag" and callee will also call downstream canary
+12. Observability control (example: observe flag passed so all downstream calls will get observed, even if on app level observability is turned off)
 
 // WORKING:
 1. Proto / gRPC codegen (models, server, client, mockserver, mockclient, mocks, value generation for mocks)
