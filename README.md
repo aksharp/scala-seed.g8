@@ -9,7 +9,7 @@ This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dep
 7. OneOf code generation
 8. Example of high performance cacheable service (copy from bidderff)
 9. On client generation, host need to be generated: $name$.service.$data-center$.consul 
-
+10. maybe proto2slate documentation, lib-api or per service? 
 
 // WORKING:
 1. Proto / gRPC codegen (models, server, client, mockserver, mockclient, mocks, value generation for mocks)
