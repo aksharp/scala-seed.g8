@@ -21,14 +21,6 @@ class GreeterGrpcService(
       .process(greetRequest)
       .runToFuture(global)
 
-//  If this is the first entry, and no ObservableAndTraceable are coming in on request, do this:
-//    (for {
-//      implicit0(ot: ObservableAndTraceable) <- observableAndTraceableService.newObservableAndTraceable()
-//      greetResponse <- greeterService.process(greetRequest)
-//    } yield {
-//      greetResponse
-//    }).runToFuture(global)
-
   }
 }
 
