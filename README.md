@@ -1,17 +1,16 @@
 This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dependencies on private and local artifacts.
 
 // TODO: (near future)
-1. Ability to call gRPC endpoint with ObservableAndTraceable
-2. Property based testing with Scalacheck (copy from bidderff)
-3. Add http4s server for consul healthchecks
-4. Deployment (gitlab + central deploy, copy from hamsa)
-5. Multi service examples (use g8 to generate multiple services and have one call another)
-6. Example of high performance cacheable service (copy from bidderff)
-7. On client generation, host need to be generated: $name$.service.$data-center$.consul 
-8. maybe proto2slate documentation, lib-api or per service?
-9. Traffic control (example: go through canary stack) on generated grpc client (via plugin) should check if caller passed "canary flag" and callee will also call downstream canary
-10. Observability control (example: observe flag passed so all downstream calls will get observed, even if on app level observability is turned off)
-11. Enum code generation for proto (in scalapb-grpc-client-server-mocks-codegen-plugin) 
+1. Property based testing with Scalacheck (copy from bidderff)
+2. Add http4s server for consul healthchecks
+3. Deployment (gitlab + central deploy, copy from hamsa)
+4. Multi service examples (use g8 to generate multiple services and have one call another)
+5. Example of high performance cacheable service (copy from bidderff)
+6. On client generation, host need to be generated: $name$.service.$data-center$.consul 
+7. maybe proto2slate documentation, lib-api or per service?
+8. Traffic control (example: go through canary stack) on generated grpc client (via plugin) should check if caller passed "canary flag" and callee will also call downstream canary
+9. Observability control (example: observe flag passed so all downstream calls will get observed, even if on app level observability is turned off)
+10. Enum code generation for proto (in scalapb-grpc-client-server-mocks-codegen-plugin) 
 
 // WORKING:
 1. Proto / gRPC codegen (models, server, client, mockserver, mockclient, mocks, value generation for mocks)

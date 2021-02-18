@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "scalapb/scalapb.proto";
+import "ObservableAndTraceable.proto";
 
 option (scalapb.options) = {
   scope: FILE
@@ -15,7 +16,8 @@ package $organization$;
 option java_package = "$organization$";
 
 message GreetRequest {
-    string name = 1;
+    ObservableAndTraceable observableAndTraceable = 1;
+    string name = 2;
 }
 
 message NotWelcomeResponse {

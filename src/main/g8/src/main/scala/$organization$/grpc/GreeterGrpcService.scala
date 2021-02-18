@@ -1,11 +1,8 @@
 package $organization$.grpc
 
 import scala.concurrent.Future
-import $organization$._
 import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
-import monix.eval.Task
-import monix.execution.Scheduler.global
 
 class GreeterGrpcService(
                           greeterService: services.GreeterService[Task]
@@ -15,12 +12,19 @@ class GreeterGrpcService(
                         ) extends GreeterGrpc.Greeter {
   override def greet(greetRequest: GreetRequest): Future[GreetResponse] = {
 
-    (for {
-      implicit0(ot: ObservableAndTraceable) <- observableAndTraceableService.newObservableAndTraceable()
-      greetResponse <- greeterService.process(greetRequest)
-    } yield {
-      greetResponse
-    }).runToFuture(global)
+    implicit val ot: ObservableAndTraceable = greetRequest.observableAndTraceable
+
+    greeterService
+      .process(greetRequest)
+      .runToFuture(global)
+
+//  If this is the first entry, and no ObservableAndTraceable are coming in on request, do this:
+//    (for {
+//      implicit0(ot: ObservableAndTraceable) <- observableAndTraceableService.newObservableAndTraceable()
+//      greetResponse <- greeterService.process(greetRequest)
+//    } yield {
+//      greetResponse
+//    }).runToFuture(global)
 
   }
 }

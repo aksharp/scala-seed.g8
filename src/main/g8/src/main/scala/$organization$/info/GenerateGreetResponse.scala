@@ -1,6 +1,6 @@
 package $organization$.info
 
-trait GenerateGreetResponse {
+sealed trait GenerateGreetResponse {
   self =>
 
   // this will transform type of error message into human readable format
