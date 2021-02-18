@@ -13,6 +13,7 @@ class GreeterGrpcService(
                         (
                           implicit observableAndTraceableService: ObservableAndTraceableService[Task]
                         ) extends GreeterGrpc.Greeter {
+
   override def greet(greetRequest: GreetRequest): Future[GreetResponse] = {
 
     implicit val ot: ObservableAndTraceable = greetRequest.observableAndTraceable
@@ -20,7 +21,7 @@ class GreeterGrpcService(
     greeterService
       .process(greetRequest)
       .runToFuture(global)
-
   }
+
 }
 
