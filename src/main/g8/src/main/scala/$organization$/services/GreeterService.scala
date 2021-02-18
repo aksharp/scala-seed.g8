@@ -51,7 +51,7 @@ class GreeterServiceImpl(
         either.fold(
           {
             case NotWelcome(name) => NotWelcomeResponse(
-              message = s"$name, you are not welcome here!"
+              message = s"$"$"$name, you are not welcome here!"
             )
             case OutOfService() => OutOfServiceResponse(
               message = "Sorry, we are upgrading our systems and will be back soon!"
