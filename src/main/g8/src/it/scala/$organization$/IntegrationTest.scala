@@ -23,7 +23,7 @@ class IntegrationTest extends AnyWordSpec with Matchers {
       )
     )
     val result = Await.result(futureResult, Duration.Inf)
-    val expectedResult = GreetResponse(
+    val expectedResult = WelcomeResponse(
       message = "Hello, " + name + "!"
     )
     result should be(expectedResult)
