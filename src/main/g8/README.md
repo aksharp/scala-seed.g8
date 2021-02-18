@@ -37,7 +37,9 @@ Expected output
 
 ```arma.header
 {
-  "message": "Hello, Alex!"
+  "welcomeResponse": {
+    "message": "Hello, Alex!"
+  }
 }
 ```
 
