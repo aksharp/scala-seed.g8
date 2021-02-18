@@ -18,8 +18,24 @@ message GreetRequest {
     string name = 1;
 }
 
-message GreetResponse {
+message NotWelcomeResponse {
     string message = 1;
+}
+
+message WelcomeResponse {
+    string message = 1;
+}
+
+message OutOfServiceResponse {
+    string message = 1;
+}
+
+message GreetResponse {
+    oneof sealed_value {
+        WelcomeResponse welcomeResponse = 1;
+        NotWelcomeResponse notWelcomeResponse = 2;
+        OutOfServiceResponse outOfServiceResponse = 3;
+    }
 }
 
 service Greeter {

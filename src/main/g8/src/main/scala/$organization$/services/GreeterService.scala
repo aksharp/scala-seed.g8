@@ -49,9 +49,13 @@ class GreeterServiceImpl(
     }).value
       .map { either =>
         either.fold(
-          err => {
-            // choose either Empty Reponse or response type from oneOf or log or send datadog metric here
-            GreetResponse()
+          {
+            case NotWelcome(name) => NotWelcomeResponse(
+              message = s"$name, you are not welcome here!"
+            )
+            case OutOfService() => OutOfServiceResponse(
+              message = "Sorry, we are upgrading our systems and will be back soon!"
+            )
           },
           res => res
         )
