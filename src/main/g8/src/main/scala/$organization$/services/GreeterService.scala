@@ -82,7 +82,7 @@ class GreeterServiceImpl(
         )
       } else {
         Right(
-          GreetResponse(
+          WelcomeResponse(
             message = "Hello, " + greetRequest.name + "!"
           )
         )
