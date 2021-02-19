@@ -1,0 +1,27 @@
+include:
+  - project: tremorvideodsp/dspsharedlibrary
+    ref: master
+    file: /gitlab-ci/base/sbt.yml
+
+variables:
+  CPU: 8
+  RAM: 8000Mi
+  IAD1_PROD_PODS: 2
+  EU1_PROD_PODS: 2
+  AP1_PROD_PODS: 2
+  JAVA_VERSION: 13
+  CANARY_PODS: 1
+
+test:
+  stage: build
+  image: centos:7
+  variables:
+    NAMESPACE: $name$
+#  services:
+#    - name: aerospike/aerospike-server
+#      alias: aerospike
+  script:
+    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+    - yum install -y git java-1.8.0-openjdk sbt
+    - sbt clean test it:test -J-XX:MaxMetaspaceSize=512m
+  allow_failure: false

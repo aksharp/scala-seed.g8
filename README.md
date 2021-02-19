@@ -29,6 +29,9 @@ Libraries:
 Plugins:
 1) ScalaPB
 4) scalapb-grpc-client-server-mocks-codegen-plugin
+
+Git Repos:
+1) tremorvideodsp/dspsharedlibrary
    
 Applications:
 1) Observable Persister
@@ -38,6 +41,7 @@ Infrastructure:
 1) Consul (feature flags and service discovery)
 2) Kafka Cluster
 3) PostgreSQL (observable persister storage)
+4) GitLab
 
 Start with this to generate a project from the template:
 ```
