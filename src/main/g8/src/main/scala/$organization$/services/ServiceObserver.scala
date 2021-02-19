@@ -27,12 +27,12 @@ trait ServiceObserver[F[_]] extends LoggableService {
 }
 
 class ServiceObserverImpl(
-                           appConfig: AppConfig,
                            clock: Clock[Task],
                            supportedFeatureFlags: List[FeatureFlagsParent[Task]]
                          )
                          (
-                           implicit observableAndTraceableService: ObservableAndTraceableService[Task]
+                           implicit observableAndTraceableService: ObservableAndTraceableService[Task],
+                           appConfig: AppConfig
                          ) extends ServiceObserver[Task] {
 
   val observableServiceInstanceKeyProducer = new MonixKafkaProducer[ObservableServiceInstanceKey, ObservableServiceInstanceValue](

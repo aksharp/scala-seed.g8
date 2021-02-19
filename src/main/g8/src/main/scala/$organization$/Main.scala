@@ -61,7 +61,6 @@ object Main extends TaskApp with LazyLogging {
 
       // observable service
       serviceObserver = new ServiceObserverImpl(
-        appConfig = appConfig, //todo: consume implicitly
         clock = clock,
         supportedFeatureFlags = supportedFeatureFlags
       )
