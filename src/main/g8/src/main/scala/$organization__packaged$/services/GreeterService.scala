@@ -71,7 +71,7 @@ class GreeterServiceImpl(
           NameCanNotBeEmpty()
         )
       // post validation business logic
-      if (!featureFlag.enable) {
+      else if (!featureFlag.enable) {
         Right(
           OutOfServiceResponse()
         )
