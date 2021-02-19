@@ -16,13 +16,7 @@ import scala.concurrent.duration.Duration
 
 object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUtils {
 
-  import $organization$.mocks._  // code generated mocks, generators and todo: arbitraries
-
-  // TODO: auto generate in mocks
-  implicit val arbGreetRequest: Arbitrary[GreetRequest] =
-    Arbitrary(
-      GreetRequestGen()
-    )
+  import $organization$.mocks._  // code generated mocks, generators and arbitraries
 
   // required implicits - can override with values as need be
   implicit val observableAndTraceableService: ObservableAndTraceableService[Task] = anObservableAndTraceableService()
