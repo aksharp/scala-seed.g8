@@ -2,7 +2,7 @@ package $organization$.test.util
 
 import cats.effect.Clock
 import $organization$.config.{AppConfig, ConsulDynamicConfig, HttpConfig}
-import com.tremorvideo.feature.flags.ExampleFeatureFlags
+import $organization$.feature.flags.ExampleFeatureFlags
 import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
 import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable, ObservableAndTraceableBase}
 import com.tremorvideo.lib.feature.flags.{Debug, DebugToConsole, DoNotObserveByDefault, Observe}
