@@ -9,7 +9,8 @@ This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dep
 6. Enum code generation for proto (in scalapb-grpc-client-server-mocks-codegen-plugin)
 7. Observability control (example: observe flag passed so all downstream calls will get observed, even if on app level observability is turned off)
 8. Traffic control (example: go through canary stack) on generated grpc client (via plugin) should check if caller passed "canary flag" and callee will also call downstream canary
-9. maybe proto2slate documentation, lib-api or per service?
+9. Generate code from protos in lib-api central location
+10. maybe proto2slate documentation, lib-api or per service?
 
 // WORKING:
 1. Automation: Proto / gRPC codegen (models, server, client, mockserver, mockclient, mocks, value generation for mocks)
