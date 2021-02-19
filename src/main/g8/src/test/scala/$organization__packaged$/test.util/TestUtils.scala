@@ -80,7 +80,7 @@ trait TestUtils {
                      consulHostname = "consul.service.iad1.consul",
                      consulPort = 8500
                    ),
-                   appName: String = $name$,
+                   appName: String = "$name$",
                    dataCenter: String = "iad1",
                    debug: Debug = DebugToConsole,
                    observe: Observe = DoNotObserveByDefault,
