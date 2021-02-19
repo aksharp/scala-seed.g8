@@ -42,6 +42,8 @@ Infrastructure:
 2) Kafka Cluster
 3) PostgreSQL (observable persister storage)
 4) GitLab
+5) Kubernetes
+6) DockerHub
 
 Start with this to generate a project from the template:
 ```
