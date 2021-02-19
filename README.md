@@ -44,6 +44,7 @@ Infrastructure:
 4) GitLab
 5) Kubernetes
 6) DockerHub
+7) (Optionally) Redis / Aerospike for cluster shared cache
 
 Start with this to generate a project from the template:
 ```
