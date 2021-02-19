@@ -6,7 +6,7 @@ import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
 import $organization$.services.GreeterServiceImpl
 import $organization$.test.util.TestUtils
-import $organization$.{GreetRequest, GreetResponse, NotWelcomeResponse, OutOfServiceResponse, WelcomeResponse}
+import $organization$._
 import monix.eval.Task
 import monix.execution.Scheduler
 import org.scalacheck.Prop.forAll
