@@ -10,21 +10,21 @@ import $organization$.{GreetRequest, GreetResponse, NotWelcomeResponse, OutOfSer
 import monix.eval.Task
 import monix.execution.Scheduler
 import org.scalacheck.Prop.forAll
-import org.scalacheck.{Arbitrary, Properties}
+import org.scalacheck.Properties
 
 import scala.concurrent.duration.Duration
 
 object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUtils {
-
-  import $organization$.mocks._  // code generated mocks and generators
-  import $organization$.mocks.Arbitraries._  // code generated arbitraries
 
   // required implicits - can override with values as need be
   implicit val observableAndTraceableService: ObservableAndTraceableService[Task] = anObservableAndTraceableService()
   implicit val observableAndTraceable: ObservableAndTraceable = anObservableAndTraceable()
   implicit val appConfig: AppConfig = anAppConfig()
   implicit val scheduler: Scheduler = Scheduler.global
+  // code generated arbitraries
+  import $organization$.mocks.Arbitraries._
 
+  // service under test
   val greeterService = new GreeterServiceImpl
 
   property(
@@ -40,17 +40,18 @@ object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUt
   ) =
     forAll {
       (
-        exampleFeatureFlags: ExampleFeatureFlags,
-        input: GreetRequest
+        exampleFeatureFlags: ExampleFeatureFlags, // 100 times generated ExampleFeatureFlags values (details in arbitraries)
+        input: GreetRequest // 100 times generated GreetRequest values (details in arbitraries)
       ) => {
-        ExampleFeatureFlags.set(exampleFeatureFlags)
+        ExampleFeatureFlags.set(exampleFeatureFlags) // set feature flags with generated value
         val greetResponse: GreetResponse =
           greeterService
-            .process(
-              greetRequest = input
+            .process( // testing properties of this function
+              greetRequest = input // pass generated input value
             )
-            .runSyncUnsafe(Duration.Inf)
+            .runSyncUnsafe(Duration.Inf) // run synchronously
 
+        // properties of various responses
         greetResponse match {
           case WelcomeResponse(_) => exampleFeatureFlags.enable && !exampleFeatureFlags.block.contains(input.name)
           case NotWelcomeResponse(_) => exampleFeatureFlags.enable && exampleFeatureFlags.block.contains(input.name)
