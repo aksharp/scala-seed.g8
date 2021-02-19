@@ -10,7 +10,7 @@ import $organization$.{GreetRequest, GreetResponse, NotWelcomeResponse, OutOfSer
 import monix.eval.Task
 import monix.execution.Scheduler
 import org.scalacheck.Prop.forAll
-import org.scalacheck.{Arbitrary, Gen, Properties}
+import org.scalacheck.{Arbitrary, Properties}
 
 import scala.concurrent.duration.Duration
 
