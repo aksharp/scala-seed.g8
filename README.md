@@ -24,6 +24,7 @@ Libraries:
 1) lib-kafka
 2) lib-api
 3) lib-feature-flags
+4) lib-metrics
 
 Plugins:
 1) ScalaPB
