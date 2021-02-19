@@ -17,7 +17,7 @@ import scala.concurrent.duration.{FiniteDuration, TimeUnit}
 
 trait TestUtils {
 
-  val testAppName = $name$
+  val testAppName = "$name$"
   val testClockTime: DateTime = DateTime.now()
   val testCorrelationIdGeneratorService = new CorrelationIdGeneratorService[Task]
 

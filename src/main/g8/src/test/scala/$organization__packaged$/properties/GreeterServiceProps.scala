@@ -1,7 +1,7 @@
 package $organization$.properties
 
 import $organization$.config.AppConfig
-import com.tremorvideo.feature.flags.ExampleFeatureFlags
+import $organization$.feature.flags.ExampleFeatureFlags
 import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
 import $organization$.services.GreeterServiceImpl
