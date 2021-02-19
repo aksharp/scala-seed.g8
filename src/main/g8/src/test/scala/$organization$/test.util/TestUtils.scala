@@ -1,18 +1,12 @@
 package $organization$.test.util
 
-import java.util.concurrent.ArrayBlockingQueue
-import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
-import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable, ObservableAndTraceableBase}
+import $organization$.config.{AppConfig, ConsulDynamicConfig, HttpConfig}
+import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable}
 import com.tremorvideo.lib.feature.flags.{Debug, DebugToConsole, DoNotObserveByDefault, Observe}
 import com.tremorvideo.lib.kafka.producer.TremorKafkaProducerConfig
-import $organization$.config.{AppConfig, ConsulDynamicConfig}
-import org.joda.time.DateTime
-import org.json4s.DefaultFormats
-import org.scalacheck.{Arbitrary, Gen}
-import $organization$.services._
+import com.tremorvideo.lib.metrics.{MetricsReporter, NoOp}
 
-import java.util.concurrent.{ArrayBlockingQueue, TimeUnit}
-import scala.concurrent.duration.{FiniteDuration, TimeUnit}
+import java.util.concurrent.ArrayBlockingQueue
 
 trait TestUtils {
 
@@ -24,6 +18,12 @@ trait TestUtils {
     )
 
   def anAppConfig(
+                   http: HttpConfig = HttpConfig(
+                     host = "0.0.0.0",
+                     port = 8888,
+                     healthEndPoint = "_health"
+                   ),
+                   metrics: MetricsReporter = NoOp,
                    consulDynamicConfig: ConsulDynamicConfig = ConsulDynamicConfig(
                      consulHostname = "consul.service.iad1.consul",
                      consulPort = 8500
@@ -44,6 +44,8 @@ trait TestUtils {
                      bootstrapServers = List("localhost:6001")
                    )
                  ): AppConfig = AppConfig(
+    http = http,
+    metrics = metrics,
     consulDynamicConfig = consulDynamicConfig,
     appName = appName,
     dataCenter = dataCenter,
