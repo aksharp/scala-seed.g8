@@ -7,7 +7,6 @@
     </appender>
 
     <logger name="$organization$" level="INFO"/>
-    <logger name="example" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

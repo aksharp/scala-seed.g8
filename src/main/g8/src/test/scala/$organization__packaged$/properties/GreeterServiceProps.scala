@@ -1,7 +1,7 @@
 package $organization$.properties
 
 import $organization$.config.AppConfig
-import $organization$.feature.flags.ExampleFeatureFlags
+import $organization$.feature.flags.GreetFeatureFlags
 import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
 import $organization$.services.GreeterServiceImpl
@@ -30,7 +30,7 @@ object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUt
   property(
     """
       INTENT: [GenerateGreetResponse]
-      FEATURE FLAGS: [ExampleFeatureFlags]
+      FEATURE FLAGS: [GreetFeatureFlags]
       INPUT: [GreetRequest]
       OUTPUT: [GreetResponse]
         EITHER [WelcomeResponse] // happy path type
@@ -40,10 +40,10 @@ object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUt
   ) =
     forAll {
       (
-        exampleFeatureFlags: ExampleFeatureFlags, // 100 times generated ExampleFeatureFlags values (details in arbitraries)
+        greetFeatureFlags: GreetFeatureFlags, // 100 times generated GreetFeatureFlags values (details in arbitraries)
         input: GreetRequest // 100 times generated GreetRequest values (details in arbitraries)
       ) => {
-        ExampleFeatureFlags.set(exampleFeatureFlags) // set feature flags with generated value
+        GreetFeatureFlags.set(greetFeatureFlags) // set feature flags with generated value
         val greetResponse: GreetResponse =
           greeterService
             .process( // testing properties of this function
@@ -53,9 +53,9 @@ object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUt
 
         // properties of various responses
         greetResponse match {
-          case WelcomeResponse(_) => exampleFeatureFlags.enable && !exampleFeatureFlags.block.contains(input.name)
-          case NotWelcomeResponse(_) => exampleFeatureFlags.enable && exampleFeatureFlags.block.contains(input.name)
-          case OutOfServiceResponse(_) => !exampleFeatureFlags.enable
+          case WelcomeResponse(_) => greetFeatureFlags.enable && !greetFeatureFlags.block.contains(input.name)
+          case NotWelcomeResponse(_) => greetFeatureFlags.enable && greetFeatureFlags.block.contains(input.name)
+          case OutOfServiceResponse(_) => !greetFeatureFlags.enable
           case ErrorResponse(_) => input.name.isEmpty
           case _ => false
         }

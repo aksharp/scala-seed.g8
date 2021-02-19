@@ -11,9 +11,7 @@ class IntegrationTest extends AnyWordSpec with Matchers {
 
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global
 
-  // TODO: start server before testing. Unignore test afterwards
-
-  "greeter.greet test. Example test against running server returning expected GreetResponse result" in {
+  "should return WelcomeResponse" in {
 
     val name = "Alex"
 
@@ -25,6 +23,23 @@ class IntegrationTest extends AnyWordSpec with Matchers {
     val result = Await.result(futureResult, Duration.Inf)
     val expectedResult = WelcomeResponse(
       message = "Hello, " + name + "!"
+    )
+    result should be(expectedResult)
+
+  }
+
+  "should get ErrorResponse when submitting with empty name" in {
+
+    val emptyName = ""
+
+    val futureResult = client.greeter.greet(
+      request = GreetRequest(
+        name = emptyName
+      )
+    )
+    val result = Await.result(futureResult, Duration.Inf)
+    val expectedResult = ErrorResponse(
+      message = "name can't be empty"
     )
     result should be(expectedResult)
 

@@ -1,12 +1,12 @@
 # $organization$ project
 
-## 1. Create ExampleFeatureFlags in consul KV store (to be automated?)
+## 1. Create GreetFeatureFlags in consul KV store (to be automated?)
 ```arma.header
 Consul KV: http://consul.service.iad1.consul:8500/ui/iad1/kv/
 
 Folder Name: $name$
 
-Feature Flag Name: ExampleFeatureFlags
+Feature Flag Name: GreetFeatureFlags
 
 Feature Flag Value:
 {
@@ -16,7 +16,7 @@ Feature Flag Value:
 }
 ```
 
-## 2. Run example app
+## 2. Run $name$ app
 ```
 sbt 
 > compile

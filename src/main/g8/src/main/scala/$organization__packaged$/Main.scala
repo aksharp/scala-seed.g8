@@ -27,7 +27,7 @@ object Main extends TaskApp with LazyLogging {
     )
 
   val supportedFeatureFlags: List[FeatureFlagsParent[Task]] = List(
-    ExampleFeatureFlags // TODO: !!!replace-me!!! with real feature flags
+    GreetFeatureFlags // TODO: !!!replace-me!!! with real feature flags
   )
 
   override def run(args: List[String]): Task[ExitCode] = {

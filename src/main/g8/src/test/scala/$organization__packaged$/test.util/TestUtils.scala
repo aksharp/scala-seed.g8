@@ -2,7 +2,7 @@ package $organization$.test.util
 
 import cats.effect.Clock
 import $organization$.config.{AppConfig, ConsulDynamicConfig, HttpConfig}
-import $organization$.feature.flags.ExampleFeatureFlags
+import $organization$.feature.flags.GreetFeatureFlags
 import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
 import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable, ObservableAndTraceableBase}
 import com.tremorvideo.lib.feature.flags.{Debug, DebugToConsole, DoNotObserveByDefault, Observe}
@@ -108,24 +108,22 @@ trait TestUtils {
     observe = observe
   )
 
-  def anExampleFeatureFlags(): ExampleFeatureFlags = genExampleFeatureFlags.sample.get
-
-  val genExampleFeatureFlags: Gen[ExampleFeatureFlags] =
+  val genGreetFeatureFlags: Gen[GreetFeatureFlags] =
     for {
       allow <- Gen.listOf(Gen.alphaNumStr)
       block <- Gen.listOf(Gen.alphaNumStr)
       enable <- Gen.oneOf(true, false)
     } yield {
-      ExampleFeatureFlags(
+      GreetFeatureFlags(
         allow = allow,
         block = block,
         enable = enable
       )
     }
 
-  implicit val arbExampleFeatureFlags: Arbitrary[ExampleFeatureFlags] =
+  implicit val arbGreetFeatureFlags: Arbitrary[GreetFeatureFlags] =
     Arbitrary(
-      genExampleFeatureFlags
+      genGreetFeatureFlags
     )
 
 }

@@ -39,7 +39,7 @@ class GreeterServiceImpl(
     // sequence of dynamically configured functions
     (for {
       greetResponse <- EitherT(
-        ExampleFeatureFlags.runAndObserve( // observable feature flag
+        GreetFeatureFlags.runAndObserve( // observable feature flag
           action = tellGreeterResponse, // observable function
           input = greetRequest // observable function input
         )
@@ -61,7 +61,7 @@ class GreeterServiceImpl(
 
   // function
   private def tellGreeterResponse(
-                                   featureFlag: ExampleFeatureFlags, // feature flag
+                                   featureFlag: GreetFeatureFlags, // feature flag
                                    greetRequest: GreetRequest // input
                                  ): Task[Either[GenerateGreetResponse, GreetResponse]] =
     Task {
