@@ -31,8 +31,15 @@ sbt
 > it:test
 ```
 
+## 4. Consume http health check and info endpoints
+```arma.header
+curl -i http://localhost:8888/_health
 
-## 4. Consume gRPC endpoint through CLI
+curl -i http://localhost:8888/info
+```
+
+
+## 5. Consume gRPC endpoint through CLI
 
 Pre-requisite: `grpcurl` (setup instructions: https://github.com/fullstorydev/grpcurl)
 
@@ -50,12 +57,12 @@ Expected output
 }
 ```
 
-## 5. Observe API Call (Type Flow, Intent, Feature Flags, Input, Output or Error)
+## 6. Observe API Call (Type Flow, Intent, Feature Flags, Input, Output or Error)
 In logs (sbt window running the app) look for value starting with `api-` which is api correlation id. Copy it and navigate to:
 http://observable-persister.service.iad1.consul:8888/apiCorrelationId/API_CORRELATION_ID
 replacing `API_CORRELATION_ID` with the actual api correlation id. 
 
-## 6. Change Feature Flag Value and Observe
+## 7. Change Feature Flag Value and Observe
 In Consul, update Feature Flag to be
 ```arma.header
 {
@@ -64,15 +71,15 @@ In Consul, update Feature Flag to be
   "enable": true
 }
 ```
-Go through steps #4 and #5 to observe error response
+Go through steps #5 and #6 to observe error response
 
-## 7. Observe Application Static Config
+## 8. Observe Application Static Config
 In logs (sbt window running the app) look for value starting with `service-$name$` which is app/service instance correlation id. Copy it and navigate to:
 http://observable-persister.service.iad1.consul:8888/serviceInstanceCorrelationId/SERVICE_INSTANCE_CORRELATION_ID
 replacing `SERVICE_INSTANCE_CORRELATION_ID` with the actual service instance correlation id.
 
 
-## 8. Consume gRPC endpoint through UI
+## 9. Consume gRPC endpoint through UI
 
 Pre-requisite: `grpcui` (setup instructions: https://github.com/fullstorydev/grpcui)
 
@@ -82,7 +89,7 @@ grpcui -plaintext -port 8181 localhost:8080
 ```
 Navigate to http://127.0.0.1:8181 
 
-## 9. Run Mock Server
+## 10. Run Mock Server
 ```
 sbt 
 > compile
@@ -92,7 +99,7 @@ sbt
 choose `$organization$.MockServer` when prompted`
 
 
-## 10. Consume mock gRPC endpoint through CLI
+## 11. Consume mock gRPC endpoint through CLI
 
 Copy example code from `target/scala-2.13/src_managed/main/$organization$/$name$/MockServerMain.scala` and run it 
 with sbt `sbt run local` and then select `$organization$.MockServerMain` from the list.
@@ -112,7 +119,7 @@ Expected output
 ```
 Mock code can be updated to return any desired response
 
-## 11. Consume mock gRPC endpoint through UI
+## 12. Consume mock gRPC endpoint through UI
 
 Pre-requisite: `grpcui` (setup instructions: https://github.com/fullstorydev/grpcui)
 
