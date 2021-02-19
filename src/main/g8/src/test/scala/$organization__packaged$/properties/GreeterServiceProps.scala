@@ -56,6 +56,7 @@ object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUt
           case WelcomeResponse(_) => exampleFeatureFlags.enable && !exampleFeatureFlags.block.contains(input.name)
           case NotWelcomeResponse(_) => exampleFeatureFlags.enable && exampleFeatureFlags.block.contains(input.name)
           case OutOfServiceResponse(_) => !exampleFeatureFlags.enable
+          case ErrorResponse(_) => input.name.isEmpty
           case _ => false
         }
       }

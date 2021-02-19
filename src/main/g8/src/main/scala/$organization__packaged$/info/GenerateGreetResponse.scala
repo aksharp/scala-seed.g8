@@ -16,5 +16,4 @@ sealed trait GenerateGreetResponse {
 
 }
 
-case class OutOfService() extends GenerateGreetResponse
-case class NotWelcome(name: String) extends GenerateGreetResponse
+case class NameCanNotBeEmpty() extends GenerateGreetResponse

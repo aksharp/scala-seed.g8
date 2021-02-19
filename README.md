@@ -2,7 +2,6 @@ This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dep
 
 // TODO: (near future)
 1. Deployment (Follow up about gitlab-ci runner complaining about unsecure artifactory issues)
-2. Property based testing with Scalacheck (copy from bidderff)
 3. On client generation, host need to be generated: $name$.service.$data-center$.consul
 4. Multi service examples (use g8 to generate multiple services and have one call another)
 5. Example of high performance cacheable service (copy from bidderff)

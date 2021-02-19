@@ -32,11 +32,16 @@ message OutOfServiceResponse {
     string message = 1;
 }
 
+message ErrorResponse {
+    string message = 1;
+}
+
 message GreetResponse {
     oneof sealed_value {
         WelcomeResponse welcomeResponse = 1;
         NotWelcomeResponse notWelcomeResponse = 2;
         OutOfServiceResponse outOfServiceResponse = 3;
+        ErrorResponse errorResponse = 4;
     }
 }
 

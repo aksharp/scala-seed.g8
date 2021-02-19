@@ -50,17 +50,13 @@ class GreeterServiceImpl(
       .map { either =>
         either.fold(
           {
-            case NotWelcome(name) => NotWelcomeResponse(
-              message = s"$"$"$name, you are not welcome here!"
-            )
-            case OutOfService() => OutOfServiceResponse(
-              message = "Sorry, we are upgrading our systems and will be back soon!"
+            case NameCanNotBeEmpty() => ErrorResponse(
+              message = "name can't be empty"
             )
           },
           res => res
         )
       }
-
   }
 
   // function
@@ -69,15 +65,20 @@ class GreeterServiceImpl(
                                    greetRequest: GreetRequest // input
                                  ): Task[Either[GenerateGreetResponse, GreetResponse]] =
     Task {
-
-      if (!featureFlag.enable) {
+      // validation
+      if (greetRequest.name.isEmpty)
         Left(
-          OutOfService()
+          NameCanNotBeEmpty()
+        )
+      // post validation business logic
+      if (!featureFlag.enable) {
+        Right(
+          OutOfServiceResponse()
         )
       } else if (featureFlag.block.contains(greetRequest.name)) {
-        Left(
-          NotWelcome(
-            name = greetRequest.name
+        Right(
+          NotWelcomeResponse(
+            message = s"$"$"${greetRequest.name}, you are not welcome here!"
           )
         )
       } else {
