@@ -20,6 +20,8 @@ enablePlugins(JavaAppPackaging)
 configs(IntegrationTest)
 Defaults.itSettings
 
+val Http4sVersion = "0.21.4"
+
 libraryDependencies ++= Seq(
   // ff (PRIVATE REPO)
   "com.tremorvideo" %% "lib-feature-flags" % "3.1.0-SNAPSHOT", // PUBLISHED LOCALLY
@@ -32,12 +34,20 @@ libraryDependencies ++= Seq(
   // config
   "com.github.pureconfig" %% "pureconfig" % "0.14.0",
 
+  // metrics
+  "com.tremorvideo" %% "lib-metrics" % "0.2.0",
+
   // date/time
   "joda-time" % "joda-time" % "2.10.9",
 
   // test
   "org.scalatest" %% "scalatest" % "3.2.3",
   "org.scalacheck" %% "scalacheck" % "1.15.2",
+
+  // http
+  "org.http4s" %% "http4s-blaze-server" % Http4sVersion,
+  "org.http4s" %% "http4s-circe" % Http4sVersion,
+  "org.http4s" %% "http4s-dsl" % Http4sVersion,
 
   // grpc
   "io.grpc" % "grpc-all" % "1.35.0",

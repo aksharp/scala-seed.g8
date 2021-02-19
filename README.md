@@ -1,9 +1,11 @@
 This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dependencies on private and local artifacts.
 
 // TODO: (near future)
-1. Property based testing with Scalacheck (copy from bidderff)
-2. Add http4s server for consul healthchecks
-3. Deployment (gitlab + central deploy, copy from hamsa)
+0. grpc server should be generated without "s.awaitTermination()" and with port override option
+1. Add http4s server for consul healthchecks
+2. Add DataDog Metrics (lib-metrics)
+3. Property based testing with Scalacheck (copy from bidderff)
+3. Deployment (gitlab + central deploy, copy from hamsa) comment out MockServerMain codegen, update README
 4. Multi service examples (use g8 to generate multiple services and have one call another)
 5. Example of high performance cacheable service (copy from bidderff)
 6. On client generation, host need to be generated: $name$.service.$data-center$.consul 

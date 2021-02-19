@@ -1,20 +1,23 @@
 package $organization$
 
+import cats.effect.{Clock, ExitCode}
 import $organization$.config._
 import $organization$.feature.flags._
 import $organization$.feature.flags.setup._
+import $organization$.grpc._
+import $organization$.http.Http4sRouter
+import $organization$.services._
 import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
 import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable}
 import com.tremorvideo.lib.feature.flags._
+import com.tremorvideo.lib.metrics.LoadMetrics
 import com.typesafe.scalalogging.LazyLogging
-import $organization$.services._
-import $organization$.grpc._
-import java.util.concurrent.{ArrayBlockingQueue, BlockingQueue}
-import monix.eval.Task
+import monix.eval.{Task, TaskApp}
 import monix.execution.Scheduler.Implicits.global
-import cats.effect.Clock
 
-object Main extends LazyLogging {
+import java.util.concurrent.{ArrayBlockingQueue, BlockingQueue}
+
+object Main extends TaskApp with LazyLogging {
 
   // how much to keep on the queue before sending to observable-persister
   val observationQueueCapacity = 10000
@@ -27,57 +30,68 @@ object Main extends LazyLogging {
     ExampleFeatureFlags // TODO: !!!replace-me!!! with real feature flags
   )
 
-  def main(args: Array[String]): Unit = {
+  override def run(args: List[String]): Task[ExitCode] = {
 
-    // config
-    implicit val appConfig: AppConfig = AppConfigLoader.loadOrExitWithErrorMessage(args)
+    // load config or exit with error
+    implicit val appConfig: AppConfig = AppConfigLoader.loadOrExitWithErrorMessage(args.toArray)
 
-    // generates correlation ids for distributed tracing
-    val correlationIdGeneratorService = new CorrelationIdGeneratorService[Task]()
-    // abstracts date and time so app can be easily tested
-    val clock = Clock[Task]
-    // helper to new up ObservableAndTraceable or transform from existing ObservableAndTraceable
-    // ObservableAndTraceable is the data structure that includes correlation ids and timestamp
-    // this is used under the hood to observe, all that is needed is to have implicit reference to this service
-    implicit val observableAndTraceableService: ObservableAndTraceableService[Task] = {
-      new ObservableAndTraceableService[Task](
-        serviceName = appConfig.appName,
+    for {
+      // todo: make implicit
+      // datadog metrics
+      metrics <- LoadMetrics[Task](appConfig.metrics)
+
+      // abstracts date and time so app can be easily tested
+      clock = Clock.create[Task]
+
+      // generates correlation ids for distributed tracing
+      correlationIdGeneratorService = new CorrelationIdGeneratorService[Task]()
+      // helper to new up ObservableAndTraceable or transform from existing ObservableAndTraceable
+      // ObservableAndTraceable is the data structure that includes correlation ids and timestamp
+      // this is used under the hood to observe, all that is needed is to have implicit reference to this service
+      implicit0(t: ObservableAndTraceableService[Task]) = {
+        new ObservableAndTraceableService[Task](
+          serviceName = appConfig.appName,
+          clock = clock,
+          correlationIdGeneratorService = correlationIdGeneratorService
+        )
+      }
+
+      // feature flags
+      featureFlagsPoller = new FeatureFlagsPollerMonixImpl
+
+      // observable service
+      serviceObserver = new ServiceObserverImpl(
+        appConfig = appConfig, //todo: consume implicitly
         clock = clock,
-        correlationIdGeneratorService = correlationIdGeneratorService
+        supportedFeatureFlags = supportedFeatureFlags
       )
-    }
 
-    // feature flags
-    val featureFlagsPoller = new FeatureFlagsPollerMonixImpl
+      // application code: services, caches, etc.
+      greeterService = new GreeterServiceImpl
 
-    // observable service
-    val serviceObserver = new ServiceObserverImpl(
-      appConfig = appConfig,
-      clock = clock,
-      supportedFeatureFlags = supportedFeatureFlags
-    )
+      // grpc services / routes
+      greeterGrpcService = new GreeterGrpcService(
+        greeterService = greeterService
+      )
 
-    // application code: services, caches, etc.
-    val greeterService = new GreeterServiceImpl
-
-    // grpc services / routes
-    val greeterGrpcService = new GreeterGrpcService(
-      greeterService = greeterService
-    )
-
-    // run
-    (for {
       _ <- featureFlagsPoller.run(
         appConfig = appConfig,
         observableQueue = observableQueue,
         supportedFeatureFlags = supportedFeatureFlags
       )
+
       _ <- serviceObserver.run()
-    } yield {
+
       // grpc server
-      server.run(
+      _ = server.run(
         greeter = greeterGrpcService
       )
-    }).runSyncUnsafe()
+
+      // http server
+      http4sRouter = new Http4sRouter
+      exitCode <- http4sRouter.run()
+    } yield {
+      exitCode
+    }
   }
 }

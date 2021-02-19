@@ -21,11 +21,9 @@ Feature Flag Value:
 sbt 
 > compile
 > test
-> run iad1-prod
+> run local
 
 ```
-choose `$organization$.Main` when prompted
-
 
 ## 3. Run integration test against running application / service
 ```arma.header
@@ -95,6 +93,9 @@ choose `$organization$.MockServer` when prompted`
 
 
 ## 10. Consume mock gRPC endpoint through CLI
+
+Copy example code from `target/scala-2.13/src_managed/main/$organization$/$name$/MockServerMain.scala` and run it 
+with sbt `sbt run local` and then select `$organization$.MockServerMain` from the list.
 
 Pre-requisite: `grpcurl` (setup instructions: https://github.com/fullstorydev/grpcurl)
 
