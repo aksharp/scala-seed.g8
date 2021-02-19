@@ -1,7 +1,7 @@
 This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dependencies on private and local artifacts.
 
 // TODO: (near future)
-1. Deployment (gitlab + central deploy, copy from hamsa) comment out MockServerMain codegen, update README
+1. Deployment (Follow up about unsecure artifactory issues)
 2. Property based testing with Scalacheck (copy from bidderff)
 3. On client generation, host need to be generated: $name$.service.$data-center$.consul
 4. Multi service examples (use g8 to generate multiple services and have one call another)
@@ -15,7 +15,7 @@ This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dep
 1. Automation: Proto / gRPC codegen (models, server, client, mockserver, mockclient, mocks, value generation for mocks)
 2. Observability & Metrics: DataDog Metrics, Observable Static & Dynamic Config with Examples (Pure Config / Feature Flags) and Feature Flags Tests
 4. Post Deployment Verification: Integration test against running application via gRPC endpoint
-5. (Partial) Continuous Deployment: HTTP Server for healthchecks
+5. (Partial) Continuous Deployment: HTTP Server for healthchecks, GitLabCI
 3. (Partial) Cacheable service (examples in bidderff for now)
 
 // DEPENDENCIES:
