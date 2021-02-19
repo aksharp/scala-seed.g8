@@ -129,3 +129,19 @@ grpcui -plaintext -port 9191 localhost:9090
 ```
 Navigate to http://127.0.0.1:9191 
 
+## 13. Add to Git
+
+```arma.header
+cd $name$
+git init
+git remote add origin git@git.tremorvideodsp.com:vh/$name$.git
+git add .
+git commit -m "Initial commit"
+git push -u origin master
+```
+
+## 14. Deploy
+
+Navigate to GitLab CI/CD: https://git.tremorvideodsp.com/vh/$name$/-/pipelines
+
+Deploy from a selected pipeline to environment of your choice
