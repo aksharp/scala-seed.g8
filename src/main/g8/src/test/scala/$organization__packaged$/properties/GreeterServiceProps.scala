@@ -4,7 +4,6 @@ import $organization$.config.AppConfig
 import $organization$.feature.flags.GreetFeatureFlags
 import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
-import $organization$.services.GreeterServiceImpl
 import $organization$.test.util.TestUtils
 import $organization$._
 import monix.eval.Task
@@ -12,6 +11,7 @@ import monix.execution.Scheduler
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Properties
 
+import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
 object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUtils {
@@ -25,17 +25,17 @@ object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUt
   import $organization$.mocks.Arbitraries._
 
   // service under test
-  val greeterService = new GreeterServiceImpl
+  val greeterService = aGreeterService
 
   property(
     """
-      INTENT: [GenerateGreetResponse]
       FEATURE FLAGS: [GreetFeatureFlags]
       INPUT: [GreetRequest]
       OUTPUT: [GreetResponse]
         EITHER [WelcomeResponse] // happy path type
         OR [NotWelcomeResponse]
         OR [OutOfServiceResponse]
+        OR [ErrorResponse]
       """.stripMargin
   ) =
     forAll {
@@ -44,23 +44,24 @@ object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUt
         input: GreetRequest // 100 times generated GreetRequest values (details in arbitraries)
       ) => {
         GreetFeatureFlags.set(greetFeatureFlags) // set feature flags with generated value
-        val greetResponse: GreetResponse =
-          greeterService
-            .process( // testing properties of this function
+
+        val future = for {
+          greetResponse <- greeterService
+            .greet( // testing properties of this function
               greetRequest = input // pass generated input value
             )
-            .runSyncUnsafe(Duration.Inf) // run synchronously
-
-        // properties of various responses
-        greetResponse match {
-          case WelcomeResponse(_) => greetFeatureFlags.enable && !greetFeatureFlags.block.contains(input.name)
-          case NotWelcomeResponse(_) => greetFeatureFlags.enable && greetFeatureFlags.block.contains(input.name)
-          case OutOfServiceResponse(_) => !greetFeatureFlags.enable
-          case ErrorResponse(_) => input.name.isEmpty
-          case _ => false
+        } yield {
+          greetResponse match {
+            case WelcomeResponse(_) => greetFeatureFlags.enable && !greetFeatureFlags.block.contains(input.name)
+            case NotWelcomeResponse(_) => greetFeatureFlags.enable && greetFeatureFlags.block.contains(input.name)
+            case OutOfServiceResponse(_) => !greetFeatureFlags.enable
+            case ErrorResponse(_) => input.name.isEmpty
+            case _ => false
+          }
         }
+
+        Await.result(future, Duration.Inf)
+
       }
-
     }
-
 }

@@ -1,6 +1,6 @@
 package $organization$.services
 
-import $organization$.{GreetRequest, GreetResponse, GreeterGrpc}
+import $organization$._
 import cats.effect.Clock
 import com.tremorvideo.lib.api.ObservableServiceInstanceKeySerde._
 import com.tremorvideo.lib.api.ObservableServiceInstanceStartup.ServiceType
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 import scala.collection.immutable.ArraySeq
 import scala.concurrent.duration.FiniteDuration
 
-trait ServiceObserver[F[_]] extends LoggableService {
+trait ServiceObserver[F[_]] extends LogInitialization {
   def run(): F[Unit]
 }
 

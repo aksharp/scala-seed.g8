@@ -5,14 +5,10 @@ import $organization$.feature.flags.setup.FeatureFlagsPollerMonixImpl
 import monix.execution.Scheduler.Implicits.global
 import org.scalatest.concurrent.Eventually
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.time.{Millis, Seconds, Span}
 import org.scalatest.wordspec.AnyWordSpec
 import $organization$.test.util.TestUtils
 
 class FeatureFlagsSpec extends AnyWordSpec with Matchers with Eventually with TestUtils {
-
-  implicit val pconf: PatienceConfig =
-    PatienceConfig(timeout = scaled(Span(2, Seconds)), interval = scaled(Span(100, Millis)))
 
   "test all feature flags" in {
 

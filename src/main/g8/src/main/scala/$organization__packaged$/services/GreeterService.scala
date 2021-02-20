@@ -1,93 +1,65 @@
 package $organization$.services
 
-import $organization$._
-import $organization$.config._
-import $organization$.feature.flags._
 import cats.data.EitherT
+import $organization$._
+import $organization$.config.AppConfig
+import $organization$.feature.flags.GreetFeatureFlags
 import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
+import $organization$.processors.Processor
+import $organization$.validators.Validator
 import monix.eval.Task
-import $organization$.info._
+import monix.execution.Scheduler.global
 
-// service contract (interface)
-trait GreeterService[F[_]] extends LoggableService {
+import scala.concurrent.Future
 
-  // service api
-  def process(
-               greetRequest: GreetRequest
-             )
-             (
-               implicit observableAndTraceable: ObservableAndTraceable // to make api observable
-             ): F[GreetResponse]
+class GreeterService(
+                      greetRequestValidator: Validator[Task, GreetRequest, GreetResponse],
+                      greetRequestProcessor: Processor[Task, GreetFeatureFlags, GreetRequest, GreetResponse]
+                    )
+                    (
+                      implicit observableAndTraceableService: ObservableAndTraceableService[Task],
+                      appConfig: AppConfig
+                    ) extends GreeterGrpc.Greeter {
 
-}
+  override def greet(greetRequest: GreetRequest): Future[GreetResponse] = {
 
-// service implementation
-class GreeterServiceImpl(
-                          implicit observableAndTraceableService: ObservableAndTraceableService[Task],
-                          appConfig: AppConfig
-                        ) extends GreeterService[Task] {
+    implicit val ot: ObservableAndTraceable = greetRequest.observableAndTraceable
 
-  // service api implementation
-  override def process(
-                        greetRequest: GreetRequest
-                      )
-                      (
-                        implicit observableAndTraceable: ObservableAndTraceable // to make api observable
-                      ): Task[GreetResponse] = {
-
-    // sequence of dynamically configured functions
     (for {
-      greetResponse <- EitherT(
-        GreetFeatureFlags.runAndObserve( // observable feature flag
-          action = tellGreeterResponse, // observable function
-          input = greetRequest // observable function input
+      finalResponse <- EitherT(
+        GreetFeatureFlags.runAndObserve(
+          action = validateAndProcess,
+          input = greetRequest
         )
       )
     } yield {
-      greetResponse
+      finalResponse
     }).value
-      .map { either =>
-        either.fold(
-          {
-            case NameCanNotBeEmpty() => ErrorResponse(
-              message = "name can't be empty"
-            )
-          },
-          res => res
-        )
-      }
+      .map(_.merge)
+      .runToFuture(global)
   }
 
-  // function
-  private def tellGreeterResponse(
-                                   featureFlag: GreetFeatureFlags, // feature flag
-                                   greetRequest: GreetRequest // input
-                                 ): Task[Either[GenerateGreetResponse, GreetResponse]] =
-    Task {
-      // validation
-      if (greetRequest.name.isEmpty)
-        Left(
-          NameCanNotBeEmpty()
+  private def validateAndProcess(
+                                  greetFeatureFlags: GreetFeatureFlags,
+                                  greetRequest: GreetRequest
+                                ): Task[Either[GreetResponse, GreetResponse]] = {
+    (for {
+      validatedRequest <- EitherT[Task, GreetResponse, GreetRequest](
+        greetRequestValidator.validate(
+          item = greetRequest
         )
-      // post validation business logic
-      else if (!featureFlag.enable) {
-        Right(
-          OutOfServiceResponse()
+      )
+      response <- EitherT.liftF[Task, GreetResponse, GreetResponse](
+        greetRequestProcessor.process(
+          featureFlags = greetFeatureFlags,
+          validatedRequest = validatedRequest
         )
-      } else if (featureFlag.block.contains(greetRequest.name)) {
-        Right(
-          NotWelcomeResponse(
-            message = s"$"$"${greetRequest.name}, you are not welcome here!"
-          )
-        )
-      } else {
-        Right(
-          WelcomeResponse(
-            message = "Hello, " + greetRequest.name + "!"
-          )
-        )
-      }
+      )
+    } yield {
+      response
+    }).value
+  }
 
-    }
 }
+

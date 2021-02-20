@@ -4,13 +4,15 @@ import cats.effect.{Clock, ExitCode}
 import $organization$.config._
 import $organization$.feature.flags._
 import $organization$.feature.flags.setup._
-import $organization$.grpc._
-import $organization$.http.Http4sRouter
 import $organization$.services._
+import $organization$.http.Http4sRouter
 import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
 import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable}
 import com.tremorvideo.lib.feature.flags._
 import com.tremorvideo.lib.metrics.LoadMetrics
+import $organization$.processors.GreetRequestProcessor
+import $organization$.util.ServiceObserverImpl
+import $organization$.validators.GreetRequestValidator
 import com.typesafe.scalalogging.LazyLogging
 import monix.eval.{Task, TaskApp}
 import monix.execution.Scheduler.Implicits.global
@@ -66,11 +68,15 @@ object Main extends TaskApp with LazyLogging {
       )
 
       // application code: services, caches, etc.
-      greeterService = new GreeterServiceImpl
+      greetRequestProcessor = new GreetRequestProcessor[Task]
+
+      // validators
+      greetRequestValidator = new GreetRequestValidator[Task]
 
       // grpc services / routes
-      greeterGrpcService = new GreeterGrpcService(
-        greeterService = greeterService
+      greeterGrpcService = new GreeterService(
+        greetRequestValidator = greetRequestValidator,
+        greetRequestProcessor = greetRequestProcessor
       )
 
       _ <- featureFlagsPoller.run(

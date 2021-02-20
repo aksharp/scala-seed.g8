@@ -3,10 +3,10 @@ package $organization$.services
 import $organization$._
 import $organization$.config.AppConfig
 import $organization$.feature.flags.GreetFeatureFlags
-import $organization$.mocks._
-import $organization$.test.util.TestUtils
 import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
+import $organization$.mocks._
+import $organization$.test.util.TestUtils
 import monix.eval.Task
 import monix.execution.Scheduler
 import org.scalatest.matchers.should.Matchers
@@ -21,7 +21,7 @@ class GreeterServiceSpec extends AnyWordSpec with Matchers with TestUtils {
   implicit val scheduler: Scheduler = Scheduler.global
 
   // service under test
-  val greeterService = new GreeterServiceImpl
+  val greeterService = aGreeterService
 
   "should receive WelcomeResponse" in {
     GreetFeatureFlags.set(
@@ -32,15 +32,21 @@ class GreeterServiceSpec extends AnyWordSpec with Matchers with TestUtils {
       )
     )
 
-    val response: GreetResponse = greeterService.process(
-      aGreetRequest(name = "Alex")
-    ).runSyncUnsafe()
-
-    response should be(
-      WelcomeResponse(
-        message = "Hello, Alex!"
+    for {
+      response <- greeterService.greet(
+        aGreetRequest(name = "Alex")
       )
-    )
+    } yield {
+      eventually {
+        response should be(
+          WelcomeResponse(
+            message = "Hello, Alex!"
+          )
+        )
+      }
+    }
+
+
   }
 
   "should receive NotWelcomeResponse" in {
@@ -52,15 +58,19 @@ class GreeterServiceSpec extends AnyWordSpec with Matchers with TestUtils {
       )
     )
 
-    val response: GreetResponse = greeterService.process(
-      aGreetRequest(name = "Alex")
-    ).runSyncUnsafe()
-
-    response should be(
-      NotWelcomeResponse(
-        message = s"Alex, you are not welcome here!"
+    for {
+      response <- greeterService.greet(
+        aGreetRequest(name = "Alex")
       )
-    )
+    } yield {
+      eventually {
+        response should be(
+          NotWelcomeResponse(
+            message = s"Alex, you are not welcome here!"
+          )
+        )
+      }
+    }
   }
 
   "should receive OutOfServiceResponse" in {
@@ -72,13 +82,17 @@ class GreeterServiceSpec extends AnyWordSpec with Matchers with TestUtils {
       )
     )
 
-    val response: GreetResponse = greeterService.process(
-      aGreetRequest(name = "Alex")
-    ).runSyncUnsafe()
-
-    response should be(
-      OutOfServiceResponse()
-    )
+    for {
+      response <- greeterService.greet(
+        aGreetRequest(name = "Alex")
+      )
+    } yield {
+      eventually {
+        response should be(
+          OutOfServiceResponse()
+        )
+      }
+    }
   }
 
   "should receive ErrorResponse" in {
@@ -90,15 +104,19 @@ class GreeterServiceSpec extends AnyWordSpec with Matchers with TestUtils {
       )
     )
 
-    val response: GreetResponse = greeterService.process(
-      aGreetRequest(name = "")
-    ).runSyncUnsafe()
-
-    response should be(
-      ErrorResponse(
-        message = "name can't be empty"
+    for {
+      response <- greeterService.greet(
+        aGreetRequest(name = "")
       )
-    )
+    } yield {
+      eventually {
+        response should be(
+          ErrorResponse(
+            message = "name can't be empty"
+          )
+        )
+      }
+    }
   }
 
 }

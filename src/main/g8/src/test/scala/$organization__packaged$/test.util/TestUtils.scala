@@ -8,14 +8,23 @@ import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable, Observ
 import com.tremorvideo.lib.feature.flags.{Debug, DebugToConsole, DoNotObserveByDefault, Observe}
 import com.tremorvideo.lib.kafka.producer.TremorKafkaProducerConfig
 import com.tremorvideo.lib.metrics.{MetricsReporter, NoOp}
+import $organization$.processors.GreetRequestProcessor
+import $organization$.services.GreeterService
+import $organization$.validators.GreetRequestValidator
 import monix.eval.Task
 import org.joda.time.DateTime
 import org.scalacheck.{Arbitrary, Gen}
+import org.scalatest.concurrent.Eventually
+import org.scalatest.time.{Millis, Seconds, Span}
 
 import java.util.concurrent.{ArrayBlockingQueue, TimeUnit}
 import scala.concurrent.duration.{FiniteDuration, TimeUnit}
 
-trait TestUtils {
+trait TestUtils extends Eventually {
+
+  implicit val pconf: PatienceConfig =
+    PatienceConfig(timeout = scaled(Span(2, Seconds)), interval = scaled(Span(100, Millis)))
+
 
   val testAppName = "$name$"
   val testClockTime: DateTime = DateTime.now()
@@ -125,5 +134,13 @@ trait TestUtils {
     Arbitrary(
       genGreetFeatureFlags
     )
+
+  def aGreeterService(
+                       implicit ots: ObservableAndTraceableService[Task],
+                       appConfig: AppConfig
+                     ) = new GreeterService(
+    greetRequestValidator = new GreetRequestValidator[Task](),
+    greetRequestProcessor = new GreetRequestProcessor[Task]()
+  )
 
 }
