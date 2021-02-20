@@ -27,23 +27,19 @@ class GreeterService(
     implicit val ot: ObservableAndTraceable = greetRequest.observableAndTraceable
 
     (for {
-      finalResponse <- EitherT(
-        GreetFeatureFlags.runAndObserve(
-          action = validateAndProcess,
-          input = greetRequest
-        )
+      finalResponse <- GreetFeatureFlags.runAndObserve(
+        action = validateAndProcess,
+        input = greetRequest
       )
     } yield {
       finalResponse
-    }).value
-      .map(_.merge)
-      .runToFuture(global)
+    }).runToFuture(global)
   }
 
   private def validateAndProcess(
                                   greetFeatureFlags: GreetFeatureFlags,
                                   greetRequest: GreetRequest
-                                ): Task[Either[GreetResponse, GreetResponse]] = {
+                                ): Task[GreetResponse] = {
     (for {
       validatedRequest <- EitherT[Task, GreetResponse, GreetRequest](
         greetRequestValidator.validate(
@@ -58,7 +54,7 @@ class GreeterService(
       )
     } yield {
       response
-    }).value
+    }).value.map(_.merge)
   }
 
 }
