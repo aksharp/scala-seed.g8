@@ -1,4 +1,4 @@
-package $organization$.services
+package $organization$.util
 
 import $organization$._
 import cats.effect.Clock
