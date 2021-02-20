@@ -15,7 +15,7 @@ class GreetRequestProcessor[F[_]] extends Processor[F, GreetFeatureFlags, GreetR
         OutOfServiceResponse()
       } else if (greetFeatureFlags.block.contains(validatedRequest.name)) {
         NotWelcomeResponse(
-          message = s"${validatedRequest.name}, you are not welcome here!"
+          message = s"$"$"${validatedRequest.name}, you are not welcome here!"
         )
       } else {
         WelcomeResponse(
