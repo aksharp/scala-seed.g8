@@ -71,7 +71,7 @@ PB.targets in Compile := Seq(
     grpc = true
   ) -> (sourceManaged in Compile).value,
 
-  io.github.aksharp.Generator -> (sourceManaged in Compile).value
+  aksharp.Generator -> (sourceManaged in Compile).value
 )
 
 // See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
