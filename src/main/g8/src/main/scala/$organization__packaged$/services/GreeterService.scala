@@ -6,8 +6,6 @@ import $organization$.config.AppConfig
 import $organization$.feature.flags.GreetFeatureFlags
 import com.tremorvideo.lib.api.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
-import $organization$.processors.Processor
-import $organization$.validators.Validator
 import monix.eval.Task
 import monix.execution.Scheduler.global
 import io.github.aksharp.tc._
