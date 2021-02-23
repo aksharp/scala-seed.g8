@@ -25,6 +25,7 @@ Libraries:
 2) lib-api
 3) lib-feature-flags
 4) lib-metrics
+5) scala-type-classes (io.github.aksharp)
 
 Plugins:
 1) ScalaPB
