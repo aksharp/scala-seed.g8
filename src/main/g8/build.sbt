@@ -1,6 +1,6 @@
 ThisBuild / name := "$name$"
 ThisBuild / scalaVersion := "2.13.4"
-ThisBuild / version := "$version$"
+ThisBuild / version := "git rev-parse --short HEAD".!!.trim
 ThisBuild / organization := "$organization$"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
@@ -90,3 +90,5 @@ scalacOptions ++= Seq(
   "-language:implicitConversions",
   "-Yrangepos"
 )
+
+parallelExecution in Test := false
