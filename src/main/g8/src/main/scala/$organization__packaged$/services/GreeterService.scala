@@ -10,7 +10,7 @@ import $organization$.processors.Processor
 import $organization$.validators.Validator
 import monix.eval.Task
 import monix.execution.Scheduler.global
-
+import io.github.aksharp.tc._
 import scala.concurrent.Future
 
 class GreeterService(

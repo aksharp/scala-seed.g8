@@ -24,8 +24,11 @@ val Http4sVersion = "0.21.4"
 
 libraryDependencies ++= Seq(
   // ff (PRIVATE REPO)
-  "com.tremorvideo" %% "lib-feature-flags" % "3.1.0-SNAPSHOT", // PUBLISHED LOCALLY
+  "com.tremorvideo" %% "lib-feature-flags" % "3.1.0-SNAPSHOT",
   "com.tremorvideo" %% "lib-api" % "0.29.2",
+
+  // aksharp
+  "io.github.aksharp" %% "scala-type-classes" % "0.1.5",
 
   // override
   "org.json4s" %% "json4s-native" % "3.6.10",
@@ -68,7 +71,7 @@ PB.targets in Compile := Seq(
     grpc = true
   ) -> (sourceManaged in Compile).value,
 
-  aksharp.Generator -> (sourceManaged in Compile).value // LOCALLY PUBLISHED
+  io.github.aksharp.Generator -> (sourceManaged in Compile).value
 )
 
 // See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.

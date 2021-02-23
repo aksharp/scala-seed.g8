@@ -10,5 +10,4 @@ addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0")
 
 libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "0.10.10"
 
-// TODO: aksharp scalapb plugin when published
-libraryDependencies += "aksharp" %% "scalapb-grpc-client-server-mocks-codegen-plugin" % "0.1.2-SNAPSHOT"
+libraryDependencies += "io.github.aksharp" %% "scalapb-codegen-plugin" % "0.2.0-SNAPSHOT"

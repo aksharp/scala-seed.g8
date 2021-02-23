@@ -1,6 +1,7 @@
 package $organization$.validators
 
 import $organization$._
+import io.github.aksharp.tc._
 
 class GreetRequestValidator[F[_]] extends Validator[F, GreetRequest, GreetResponse] {
 
