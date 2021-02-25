@@ -81,16 +81,22 @@ http://observable-persister.service.iad1.consul:8888/serviceInstanceCorrelationI
 replacing `SERVICE_INSTANCE_CORRELATION_ID` with the actual service instance correlation id.
 
 
-## 9. Run $name$ app locally
+## 9. Compile, Test and Run $name$ app locally
 ```
 sbt 
 > compile
 > test
 > run local
-
 ```
 
-## 10. Check out Validators, Processors, Unit Tests and Property based testing with an example in tests
+## 10. Integration test against running local instance
+In another terminal window 
+```
+sbt "it:testOnly * -- -Denv=local"
+```
+
+
+## 11. In source code, check out Unit Tests and Property based testing with an example in tests
 
 
 

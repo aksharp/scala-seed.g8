@@ -6,8 +6,8 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext}
 import com.tremorvideo.lib.api.example._
 import org.scalatest._
+import com.tremorvideo.lib.api.observable.ObservableAndTraceableBase
 
-// todo: move to /it directory to run separately via sbt
 class IntegrationTest extends FixtureAnyWordSpec with Matchers {
 
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global
@@ -21,15 +21,17 @@ class IntegrationTest extends FixtureAnyWordSpec with Matchers {
   "should return WelcomeResponse" in { config: FixtureParam =>
 
     val env = config.getOrElse("env", fail("""include env param like so: sbt "it:testOnly * -- -Denv=iad1" """))
+    val host = if (env == "local") "localhost" else s"canary.$name$.service.$"$"${env}.consul"
 
     val client = new com.tremorvideo.lib.api.example.Client(
-      host = s"canary.$name$.service.$"$"${env}.consul"
+      host = host
     )
 
     val name = "Alex"
 
     val futureResult = client.greeter.greet(
       request = GreetRequest(
+        observableAndTraceable = toObservableAndTraceable,
         name = name
       )
     )
@@ -44,15 +46,17 @@ class IntegrationTest extends FixtureAnyWordSpec with Matchers {
   "should get ErrorResponse when submitting with empty name" in { config: FixtureParam =>
 
     val env = config.getOrElse("env", fail("""include env param like so: sbt "it:testOnly * -- -Denv=iad1" """))
+    val host = if (env == "local") "localhost" else s"canary.$name$.service.$"$"${env}.consul"
 
     val client = new com.tremorvideo.lib.api.example.Client(
-      host = s"canary.$name$.service.$"$"${env}.consul"
+      host = host
     )
 
     val emptyName = ""
 
     val futureResult = client.greeter.greet(
       request = GreetRequest(
+        observableAndTraceable = toObservableAndTraceable,
         name = emptyName
       )
     )
@@ -62,6 +66,14 @@ class IntegrationTest extends FixtureAnyWordSpec with Matchers {
     )
     result should be(expectedResult)
 
+  }
+
+  private def toObservableAndTraceable: ObservableAndTraceableBase = {
+    ObservableAndTraceableBase(
+      serviceInstanceCorrelationId = "it:test",
+      apiCallCorrelationId = s"api-test-${System.currentTimeMillis()}",
+      apiCallTimestamp = System.currentTimeMillis()
+    )
   }
 
 }
