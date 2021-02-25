@@ -1,3 +1,5 @@
+import scala.sys.process._
+
 ThisBuild / name := "$name$"
 ThisBuild / scalaVersion := "2.13.4"
 ThisBuild / version := "git rev-parse --short HEAD".!!.trim
