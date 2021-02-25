@@ -39,3 +39,39 @@ artifact:
     paths:
       - target/universal
   allow_failure: false
+
+iad1-canary test:
+  stage: iad1
+  image: tremorvideo/centos-jdk15:latest
+  variables:
+    NAMESPACE: $name$
+  script:
+    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+    - yum install -y git java-1.8.0-openjdk sbt
+    - sbt "it:testOnly * -- -Denv=iad1" -J-XX:MaxMetaspaceSize=512m
+  allow_failure: true
+  when: manual
+
+eu1-canary test:
+  stage: eu1
+  image: tremorvideo/centos-jdk15:latest
+  variables:
+    NAMESPACE: $name$
+  script:
+    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+    - yum install -y git java-1.8.0-openjdk sbt
+    - sbt "it:testOnly * -- -Denv=eu1" -J-XX:MaxMetaspaceSize=512m
+  allow_failure: true
+  when: manual
+
+ap1-canary test:
+  stage: ap1
+  image: tremorvideo/centos-jdk15:latest
+  variables:
+    NAMESPACE: $name$
+  script:
+    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
+    - yum install -y git java-1.8.0-openjdk sbt
+    - sbt "it:testOnly * -- -Denv=ap1" -J-XX:MaxMetaspaceSize=512m
+  allow_failure: true
+  when: manual

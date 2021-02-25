@@ -1,17 +1,29 @@
 package $organization$
 
-import $organization$._
 import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.wordspec.FixtureAnyWordSpec
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext}
+import com.tremorvideo.lib.api.example._
 
 // todo: move to /it directory to run separately via sbt
-class IntegrationTest extends AnyWordSpec with Matchers {
+class IntegrationTest extends FixtureAnyWordSpec with Matchers {
 
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.global
 
-  "should return WelcomeResponse" in {
+  type FixtureParam = Map[String, Any]
+
+  override protected def withFixture(test: OneArgTest): Outcome = {
+    test(test.configMap)
+  }
+
+  "should return WelcomeResponse" in { config: FixtureParam =>
+
+    val env = config.getOrElse("env", fail("""include env param like so: sbt "it:testOnly * -- -Denv=iad1" """))
+
+    val client = new com.tremorvideo.lib.api.example.Client(
+      host = s"canary.$name$.service.$"$"${env}.consul"
+    )
 
     val name = "Alex"
 
@@ -28,7 +40,13 @@ class IntegrationTest extends AnyWordSpec with Matchers {
 
   }
 
-  "should get ErrorResponse when submitting with empty name" in {
+  "should get ErrorResponse when submitting with empty name" in { config: FixtureParam =>
+
+    val env = config.getOrElse("env", fail("""include env param like so: sbt "it:testOnly * -- -Denv=iad1" """))
+
+    val client = new com.tremorvideo.lib.api.example.Client(
+      host = s"canary.$name$.service.$"$"${env}.consul"
+    )
 
     val emptyName = ""
 
