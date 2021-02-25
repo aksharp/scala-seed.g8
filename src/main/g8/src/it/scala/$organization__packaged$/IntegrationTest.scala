@@ -71,7 +71,7 @@ class IntegrationTest extends FixtureAnyWordSpec with Matchers {
   private def toObservableAndTraceable: ObservableAndTraceableBase = {
     ObservableAndTraceableBase(
       serviceInstanceCorrelationId = "it:test",
-      apiCallCorrelationId = s"api-test-${System.currentTimeMillis()}",
+      apiCallCorrelationId = s"api-test-$"$"${System.currentTimeMillis()}",
       apiCallTimestamp = System.currentTimeMillis()
     )
   }
