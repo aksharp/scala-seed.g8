@@ -5,6 +5,7 @@ import org.scalatest.wordspec.FixtureAnyWordSpec
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext}
 import com.tremorvideo.lib.api.example._
+import org.scalatest._
 
 // todo: move to /it directory to run separately via sbt
 class IntegrationTest extends FixtureAnyWordSpec with Matchers {
