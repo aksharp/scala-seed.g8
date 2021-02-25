@@ -3,7 +3,6 @@ package $organization$.feature.flags.setup
 import $organization$.config.AppConfig
 import cats.Monad
 import cats.implicits._
-import com.tremorvideo.config.AppConfig
 import com.tremorvideo.lib.api.feature.flags.FeatureFlagsJson
 import com.tremorvideo.lib.api.observable.ObservableAndTraceable
 import com.tremorvideo.lib.feature.flags.{ConsulFeatureFlagsPoller, FeatureFlagsParent}
