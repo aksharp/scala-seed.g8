@@ -5,6 +5,7 @@ import $organization$.config._
 import $organization$.feature.flags._
 import $organization$.feature.flags.setup._
 import $organization$.services._
+import $organization$.server
 import $organization$.http.Http4sRouter
 import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
 import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable}
@@ -17,16 +18,7 @@ import com.typesafe.scalalogging.LazyLogging
 import monix.eval.{Task, TaskApp}
 import monix.execution.Scheduler.Implicits.global
 
-import java.util.concurrent.{ArrayBlockingQueue, BlockingQueue}
-
 object Main extends TaskApp with LazyLogging {
-
-  // how much to keep on the queue before sending to observable-persister
-  val observationQueueCapacity = 10000
-  val observableQueue: BlockingQueue[(ObservableAndTraceable, FeatureFlagsJson)] =
-    new ArrayBlockingQueue[(ObservableAndTraceable, FeatureFlagsJson)](
-      observationQueueCapacity
-    )
 
   val supportedFeatureFlags: List[FeatureFlagsParent[Task]] = List(
     GreetFeatureFlags // TODO: !!!replace-me!!! with real feature flags

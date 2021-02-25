@@ -24,8 +24,8 @@ val Http4sVersion = "0.21.4"
 
 libraryDependencies ++= Seq(
   // ff (PRIVATE REPO)
-  "com.tremorvideo" %% "lib-feature-flags" % "3.1.0-SNAPSHOT",
-  "com.tremorvideo" %% "lib-api" % "0.29.2",
+  "com.tremorvideo" %% "lib-feature-flags" % "3.3.0-SNAPSHOT",
+  "com.tremorvideo" %% "lib-api" % "1.1.0-SNAPSHOT",
 
   // aksharp
   "io.github.aksharp" %% "scala-type-classes" % "0.1.5",
@@ -52,26 +52,11 @@ libraryDependencies ++= Seq(
   "org.http4s" %% "http4s-circe" % Http4sVersion,
   "org.http4s" %% "http4s-dsl" % Http4sVersion,
 
-  // grpc
-  "io.grpc" % "grpc-all" % "1.35.0",
-  "io.grpc" % "grpc-netty" % scalapb.compiler.Version.grpcJavaVersion,
-  "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion,
-  "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
-
   // logging
   "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
   "ch.qos.logback" % "logback-core" % "1.2.3",
   "ch.qos.logback" % "logback-classic" % "1.2.3",
   "org.slf4j" % "slf4j-api" % "1.7.28"
-)
-
-PB.targets in Compile := Seq(
-  scalapb.gen(
-    flatPackage = true,
-    grpc = true
-  ) -> (sourceManaged in Compile).value,
-
-  _root_.io.github.aksharp.codegen.Generator -> (sourceManaged in Compile).value
 )
 
 // See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.

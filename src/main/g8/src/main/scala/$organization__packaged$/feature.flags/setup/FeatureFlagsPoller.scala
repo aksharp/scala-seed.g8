@@ -1,20 +1,18 @@
 package $organization$.feature.flags.setup
 
+import $organization$.config.AppConfig
 import cats.Monad
 import cats.implicits._
-import $organization$.config.AppConfig
-import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable}
+import com.tremorvideo.config.AppConfig
+import com.tremorvideo.lib.api.feature.flags.FeatureFlagsJson
+import com.tremorvideo.lib.api.observable.ObservableAndTraceable
 import com.tremorvideo.lib.feature.flags.{ConsulFeatureFlagsPoller, FeatureFlagsParent}
 import com.tremorvideo.lib.kafka.producer.TremorKafkaProducer
 import com.typesafe.scalalogging.LazyLogging
 
-import java.util.concurrent.BlockingQueue
-
-
 trait FeatureFlagsPoller[F[_]] extends LazyLogging {
   def run(
            appConfig: AppConfig,
-           observableQueue: BlockingQueue[(ObservableAndTraceable, FeatureFlagsJson)],
            supportedFeatureFlags: List[FeatureFlagsParent[F]]
          )
          (implicit M: Monad[F]): F[ConsulFeatureFlagsPoller[F]] = {
@@ -24,8 +22,7 @@ trait FeatureFlagsPoller[F[_]] extends LazyLogging {
       )
       poller <- createPoller(
         appConfig = appConfig,
-        producer = producer,
-        observableQueue = observableQueue
+        producer = producer
       )
     } yield {
       // feature flags for poller to poll from consul, and send to kafka for observation
@@ -42,8 +39,7 @@ trait FeatureFlagsPoller[F[_]] extends LazyLogging {
 
   def createPoller(
                     appConfig: AppConfig,
-                    producer: TremorKafkaProducer[F, ObservableAndTraceable, FeatureFlagsJson],
-                    observableQueue: BlockingQueue[(ObservableAndTraceable, FeatureFlagsJson)]
+                    producer: TremorKafkaProducer[F, ObservableAndTraceable, FeatureFlagsJson]
                   ): F[ConsulFeatureFlagsPoller[F]]
 
   def createProducer(

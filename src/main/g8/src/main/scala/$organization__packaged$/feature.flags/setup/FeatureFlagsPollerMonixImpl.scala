@@ -2,8 +2,9 @@ package $organization$.feature.flags.setup
 
 import $organization$.config.AppConfig
 import $organization$.util.ThreadPools
-import com.tremorvideo.lib.api.{FeatureFlagsJson, ObservableAndTraceable}
-import com.tremorvideo.lib.feature.flags.{ConsulFeatureFlagsPoller, MonixConsulFeatureFlagsPoller}
+import com.tremorvideo.lib.api.feature.flags.FeatureFlagsJson
+import com.tremorvideo.lib.api.observable.ObservableAndTraceable
+import com.tremorvideo.lib.feature.flags.{ConsulFeatureFlagsPoller, FeatureFlags, MonixConsulFeatureFlagsPoller}
 import com.tremorvideo.lib.kafka.producer.{MonixKafkaProducer, TremorKafkaProducer, TremorKafkaProducerConfig}
 import com.typesafe.scalalogging.LazyLogging
 import monix.eval.Task
@@ -14,8 +15,7 @@ import java.util.concurrent.BlockingQueue
 class FeatureFlagsPollerMonixImpl extends FeatureFlagsPoller[Task] with LazyLogging {
   override def createPoller(
                              appConfig: AppConfig,
-                             producer: TremorKafkaProducer[Task, ObservableAndTraceable, FeatureFlagsJson],
-                             observableQueue: BlockingQueue[(ObservableAndTraceable, FeatureFlagsJson)]
+                             producer: TremorKafkaProducer[Task, ObservableAndTraceable, FeatureFlagsJson]
                            ): Task[ConsulFeatureFlagsPoller[Task]] =
     Task {
       new MonixConsulFeatureFlagsPoller(
@@ -23,7 +23,7 @@ class FeatureFlagsPollerMonixImpl extends FeatureFlagsPoller[Task] with LazyLogg
         consulHostname = appConfig.consulDynamicConfig.consulHostname,
         consulPort = appConfig.consulDynamicConfig.consulPort,
         observableProducer = producer,
-        observableQueue = observableQueue,
+        observableQueue = FeatureFlags.observableQueue,
         observableProducerScheduler = ThreadPools.featureFlagsThreadPool
       )
     }
@@ -32,8 +32,8 @@ class FeatureFlagsPollerMonixImpl extends FeatureFlagsPoller[Task] with LazyLogg
                                appConfig: AppConfig
                              ): Task[TremorKafkaProducer[Task, ObservableAndTraceable, FeatureFlagsJson]] =
     Task {
-      import com.tremorvideo.lib.api.FeatureFlagsJsonSerde._
-      import com.tremorvideo.lib.api.ObservableAndTraceableSerde._
+      import com.tremorvideo.lib.api.feature.flags.serde.FeatureFlagsJsonSerde._
+      import com.tremorvideo.lib.api.observable.serde.ObservableAndTraceableSerde._
 
       new MonixKafkaProducer[ObservableAndTraceable, FeatureFlagsJson](
         config = TremorKafkaProducerConfig(

@@ -1,6 +1,5 @@
 package $organization$.feature.flags
 
-import $organization$.Main
 import $organization$.feature.flags.setup.FeatureFlagsPollerMonixImpl
 import monix.execution.Scheduler.Implicits.global
 import org.scalatest.concurrent.Eventually
@@ -16,7 +15,6 @@ class FeatureFlagsSpec extends AnyWordSpec with Matchers with Eventually with Te
     val pollerAndObserver = new FeatureFlagsPollerMonixImpl()
     val poller = pollerAndObserver.run(
       appConfig = anAppConfig(), //todo: this is iad1 specific. need to refactor AppConfig,
-      observableQueue = anObservableQueue(10),
       supportedFeatureFlags = Main.supportedFeatureFlags
     ).runSyncUnsafe()
 
