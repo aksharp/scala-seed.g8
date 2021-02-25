@@ -5,4 +5,4 @@ git add .
 git commit -am "init"
 sbt compile
 
-rm init
+rm init.sh
