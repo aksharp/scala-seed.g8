@@ -16,11 +16,14 @@ Feature Flag Value:
 }
 ```
 
-## 2. Initialize. Run init.sh to init git and compile. Create `$name$` gitlab repo, add remote repository and push to gitlab
-```arma.header
-./init.sh
+## 2. Initialize. Create git repo on GitLab and copy the git url (example: `git@git.tremorvideodsp.com:vh/$name$.git`)
 
-// Example:
+if you are using dev tool, use `dev init git@git.tremorvideodsp.com:vh/$name$.git` otherwise do this, which is what dev tool does:
+```arma.header
+git init
+git add .
+git commit -am "init"
+sbt compile
 git remote add origin git@git.tremorvideodsp.com:vh/$name$.git
 git push -u origin master
 ```
