@@ -1,5 +1,6 @@
 package $organization$.feature.flags
 
+import $organization$.Main
 import $organization$.feature.flags.setup.FeatureFlagsPollerMonixImpl
 import monix.execution.Scheduler.Implicits.global
 import org.scalatest.concurrent.Eventually

@@ -1,16 +1,16 @@
 package $organization$.services
 
-import $organization$._
 import $organization$.config.AppConfig
 import $organization$.feature.flags.GreetFeatureFlags
 import com.tremorvideo.lib.api.observable.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
-import $organization$.mocks._
 import $organization$.test.util.TestUtils
 import monix.eval.Task
 import monix.execution.Scheduler
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import com.tremorvideo.lib.api.example._
+import com.tremorvideo.lib.api.example.mocks._
 
 class GreeterServiceSpec extends AnyWordSpec with Matchers with TestUtils {
 

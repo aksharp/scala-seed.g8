@@ -5,12 +5,11 @@ import $organization$.feature.flags.GreetFeatureFlags
 import com.tremorvideo.lib.api.observable.ObservableAndTraceable
 import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
 import $organization$.test.util.TestUtils
-import $organization$._
 import monix.eval.Task
 import monix.execution.Scheduler
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Properties
-
+import com.tremorvideo.lib.api.example._
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -22,7 +21,7 @@ object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUt
   implicit val appConfig: AppConfig = anAppConfig()
   implicit val scheduler: Scheduler = Scheduler.global
   // code generated arbitraries
-  import $organization$.mocks.Arbitraries._
+  import com.tremorvideo.lib.api.example.mocks.Arbitraries._
 
   // service under test
   val greeterService = aGreeterService
