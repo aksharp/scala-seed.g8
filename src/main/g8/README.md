@@ -1,6 +1,6 @@
 # $organization$ project
 
-## 1. Create GreetFeatureFlags in consul KV store (to be automated?)
+## 1. Create GreetFeatureFlags in consul KV store (to be automated)
 ```arma.header
 Consul KV: http://consul.service.iad1.consul:8500/ui/iad1/kv/
 
@@ -16,28 +16,24 @@ Feature Flag Value:
 }
 ```
 
-## 2. Run $name$ app
-```
-sbt 
-> compile
-> test
-> run local
-
-```
-
-## 3. Run integration test against running application / service
+## 2. Initialize. Run init.sh to init git and compile. Create `$name$` gitlab repo, add remote repository and push to gitlab
 ```arma.header
-sbt
-> it:test
+./init.sh
+
+// Example:
+git remote add origin git@git.tremorvideodsp.com:vh/$name$.git
+git push -u origin master
 ```
 
-## 4. Consume http health check and info endpoints
-```arma.header
-curl -i http://localhost:8888/_health
+## 3. Deploy from GitLab to canary and verify
+Deploy to `iad1-canary` from GitLab Pipeline https://git.tremorvideodsp.com/vh/$name$/-/pipelines
+Test by running `iad1-canary test` gitlab job from same pipeline 
 
-curl -i http://localhost:8888/info
-```
-
+## 4. Observe on observable-persister
+Go to kube logs (because we don't have central logging yet) and pull out correlation ids, then plug them into observable persister to observe
+Look for value starting with `api-` which is api correlation id. Copy it and navigate to:
+http://observable-persister.service.iad1.consul:8888/apiCorrelationId/API_CORRELATION_ID
+replacing `API_CORRELATION_ID` with the actual api correlation id.
 
 ## 5. Consume gRPC endpoint through CLI
 
@@ -57,10 +53,16 @@ Expected output
 }
 ```
 
-## 6. Observe API Call (Type Flow, Intent, Feature Flags, Input, Output or Error)
-In logs (sbt window running the app) look for value starting with `api-` which is api correlation id. Copy it and navigate to:
-http://observable-persister.service.iad1.consul:8888/apiCorrelationId/API_CORRELATION_ID
-replacing `API_CORRELATION_ID` with the actual api correlation id. 
+## 6. Consume gRPC endpoint through UI
+
+Pre-requisite: `grpcui` (setup instructions: https://github.com/fullstorydev/grpcui)
+
+In a separate terminal window start `grpcui`
+```
+grpcui -plaintext -port 8181 localhost:8080
+```
+Navigate to http://127.0.0.1:8181
+
 
 ## 7. Change Feature Flag Value and Observe
 In Consul, update Feature Flag to be
@@ -71,7 +73,7 @@ In Consul, update Feature Flag to be
   "enable": true
 }
 ```
-Go through steps #5 and #6 to observe error response
+Run request from CLI or UI and then Observe using api correlation id on observable-persister
 
 ## 8. Observe Application Static Config
 In logs (sbt window running the app) look for value starting with `service-$name$` which is app/service instance correlation id. Copy it and navigate to:
@@ -79,69 +81,16 @@ http://observable-persister.service.iad1.consul:8888/serviceInstanceCorrelationI
 replacing `SERVICE_INSTANCE_CORRELATION_ID` with the actual service instance correlation id.
 
 
-## 9. Consume gRPC endpoint through UI
-
-Pre-requisite: `grpcui` (setup instructions: https://github.com/fullstorydev/grpcui)
-
-In a separate terminal window start `grpcui`
-```
-grpcui -plaintext -port 8181 localhost:8080
-```
-Navigate to http://127.0.0.1:8181 
-
-## 10. Run Mock Server
+## 9. Run $name$ app locally
 ```
 sbt 
 > compile
-> run
+> test
+> run local
 
 ```
-choose `$organization$.MockServer` when prompted`
+
+## 10. Check out Validators, Processors, Unit Tests and Property based testing with an example in tests
 
 
-## 11. Consume mock gRPC endpoint through CLI
 
-Copy example code from `target/scala-2.13/src_managed/main/$organization$/$name$/MockServerMain.scala` and run it 
-with sbt `sbt run local` and then select `$organization$.MockServerMain` from the list.
-
-Pre-requisite: `grpcurl` (setup instructions: https://github.com/fullstorydev/grpcurl)
-
-```
-grpcurl -plaintext -d '{"name": "Alex"}' localhost:9090 $organization$.Greeter/Greet
-```
-
-Expected output
-
-```arma.header
-{
-
-}
-```
-Mock code can be updated to return any desired response
-
-## 12. Consume mock gRPC endpoint through UI
-
-Pre-requisite: `grpcui` (setup instructions: https://github.com/fullstorydev/grpcui)
-
-In a separate terminal window start `grpcui`
-```
-grpcui -plaintext -port 9191 localhost:9090
-```
-Navigate to http://127.0.0.1:9191 
-
-## 13. Add to Git
-
-```arma.header
-cd $name$
-git init
-git remote add origin git@git.tremorvideodsp.com:vh/$name$.git
-git add .
-git commit -m "Initial commit"
-git push -u origin master
-```
-
-## 14. Deploy
-
-Navigate to GitLab CI/CD: https://git.tremorvideodsp.com/vh/$name$/-/pipelines
-
-Deploy from a selected pipeline to environment of your choice
