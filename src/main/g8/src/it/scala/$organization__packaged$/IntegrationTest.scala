@@ -20,8 +20,9 @@ class IntegrationTest extends FixtureAnyWordSpec with Matchers {
 
   "should return WelcomeResponse" in { config: FixtureParam =>
 
-    val env = config.getOrElse("env", fail("""include env param like so: sbt "it:testOnly * -- -Denv=iad1" """))
-    val host = if (env == "local") "localhost" else s"canary.$name$.service.$"$"${env}.consul"
+    val env = config.getOrElse("env", fail("""include env param like so: sbt "it:testOnly * -- -Ddc=iad1 -Denv=canary" """))
+    val dc = config.getOrElse("dc", fail("""include env param like so: sbt "it:testOnly * -- -Ddc=iad1 -Denv=canary" """))
+    val host = if (env == "local") "localhost" else s"$"$"${env}.$name$.service.$"$"${dc}.consul"
 
     val client = new com.tremorvideo.lib.api.example.Client(
       host = host
@@ -45,8 +46,9 @@ class IntegrationTest extends FixtureAnyWordSpec with Matchers {
 
   "should get ErrorResponse when submitting with empty name" in { config: FixtureParam =>
 
-    val env = config.getOrElse("env", fail("""include env param like so: sbt "it:testOnly * -- -Denv=iad1" """))
-    val host = if (env == "local") "localhost" else s"canary.$name$.service.$"$"${env}.consul"
+    val env = config.getOrElse("env", fail("""include env param like so: sbt "it:testOnly * -- -Ddc=iad1 -Denv=canary" """))
+    val dc = config.getOrElse("dc", fail("""include env param like so: sbt "it:testOnly * -- -Ddc=iad1 -Denv=canary" """))
+    val host = if (env == "local") "localhost" else s"$"$"${env}.$name$.service.$"$"${dc}.consul"
 
     val client = new com.tremorvideo.lib.api.example.Client(
       host = host

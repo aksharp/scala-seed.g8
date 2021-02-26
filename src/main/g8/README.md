@@ -1,5 +1,11 @@
 # $organization$ project
 
+## 0. DO THIS FIRST
+You need `dev` tool that automates lots of manual scripts. Get it from here:
+`git clone git@github.com:aksharp/dev.git`
+Then add alias to it in your shell (zshrc or bashrc) and restart terminal
+`alias dev="~/path-to-dev-project/dev"`
+
 ## 1. Create GreetFeatureFlags in consul KV store (to be automated)
 ```arma.header
 Consul KV: http://consul.service.iad1.consul:8500/ui/iad1/kv/
@@ -16,38 +22,31 @@ Feature Flag Value:
 }
 ```
 
-## 2. Initialize. Create git repo on GitLab and copy the git url (example: `git@git.tremorvideodsp.com:vh/$name$.git`)
+## 2. Create git repo on GitLab and copy the repo's git url (example: `git@git.tremorvideodsp.com:vh/$name$.git`)
 
-if you are using dev tool, use `dev init git@git.tremorvideodsp.com:vh/$name$.git` otherwise do this, which is what dev tool does:
-```arma.header
-git init
-git add .
-git commit -am "init"
-sbt compile
-git remote add origin git@git.tremorvideodsp.com:vh/$name$.git
-git push -u origin master
-```
+## 3 Locally in terminal cd to $name$ project directory and run
+`dev init GIT_REPO_URL` where GIT_REPO_URL is the git url to your repo from step #2
 
-## 3. Deploy from GitLab to canary and verify
+## 4. On GitLab deploy to canary
 Deploy to `iad1-canary` from GitLab Pipeline https://git.tremorvideodsp.com/vh/$name$/-/pipelines
+
+## 5. Verify canary deployment by running a test from GitLab pipeline
 Test by running `iad1-canary test` gitlab job from same pipeline 
 
-## 4. Observe on observable-persister
+## 6. Observe on observable-persister
 Go to kube logs (because we don't have central logging yet) and pull out correlation ids, then plug them into observable persister to observe
 Look for value starting with `api-` which is api correlation id. Copy it and navigate to:
 http://observable-persister.service.iad1.consul:8888/apiCorrelationId/API_CORRELATION_ID
 replacing `API_CORRELATION_ID` with the actual api correlation id.
 
-## 5. Consume gRPC endpoint through CLI
-
+## 7. Consume gRPC endpoint through CLI
 Pre-requisite: `grpcurl` (setup instructions: https://github.com/fullstorydev/grpcurl)
 
 ```
-grpcurl -plaintext -d '{"name": "Alex"}' localhost:8080 $organization$.Greeter/Greet
+grpcurl -plaintext -d '{"name": "Alex"}' canary.$name$.service.iad1.consul:8080 $organization$.Greeter/Greet
 ```
 
 Expected output
-
 ```arma.header
 {
   "welcomeResponse": {
@@ -56,7 +55,7 @@ Expected output
 }
 ```
 
-## 6. Consume gRPC endpoint through UI
+## 8. Consume gRPC endpoint through UI
 
 Pre-requisite: `grpcui` (setup instructions: https://github.com/fullstorydev/grpcui)
 
@@ -67,7 +66,7 @@ grpcui -plaintext -port 8181 localhost:8080
 Navigate to http://127.0.0.1:8181
 
 
-## 7. Change Feature Flag Value and Observe
+## 9. Change Feature Flag Value and Observe
 In Consul, update Feature Flag to be
 ```arma.header
 {
@@ -78,13 +77,14 @@ In Consul, update Feature Flag to be
 ```
 Run request from CLI or UI and then Observe using api correlation id on observable-persister
 
-## 8. Observe Application Static Config
+## 10. Observe Application Static Config
 In logs (sbt window running the app) look for value starting with `service-$name$` which is app/service instance correlation id. Copy it and navigate to:
 http://observable-persister.service.iad1.consul:8888/serviceInstanceCorrelationId/SERVICE_INSTANCE_CORRELATION_ID
 replacing `SERVICE_INSTANCE_CORRELATION_ID` with the actual service instance correlation id.
 
+Also found in app logs on startup
 
-## 9. Compile, Test and Run $name$ app locally
+## 11. Compile, Test and Run $name$ app locally
 ```
 sbt 
 > compile
@@ -92,12 +92,25 @@ sbt
 > run local
 ```
 
-## 10. Integration test against running local instance
-In another terminal window 
+## 12. Integration test against running local instance
+In another terminal window from $name$ directory
 ```
-sbt "it:testOnly * -- -Denv=local"
+dev test local
 ```
 
+## 13. You can also test against global canaries or prod deployments
+In another terminal window from $name$ directory
+```
+dev test iad1 canary
+dev test eu1 canary
+dev test ap1 canary
+```
+or prod
+```
+dev test iad1 prod
+dev test eu1 prod
+dev test ap1 prod
+```
 
 ## 11. In source code, check out Unit Tests and Property based testing with an example in tests
 
