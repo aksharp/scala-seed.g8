@@ -133,4 +133,12 @@ Add API proto definitions in lib-api and publish it
 
 Update build.sbt with new lib-api version
 
-Write code behind the api
+Write code behind the api, unit tests, property tests and post deployment tests
+
+Deploy the app via gitlab-ci to canary
+
+Run post canary deployment tests from gitlab-ci
+
+Deploy to cluster
+
+Run post prod deployment tests to cluster from gitlab-ci
