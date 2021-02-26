@@ -119,13 +119,11 @@ dev test ap1 prod
 -----------
 -----------
 ## If you are already familiar with detailed steps above, here is the summary
+Create new git repo on gitlab. Copy the git url to it 
 ```arma.header
 dev new
 cd $name$
-```
-create new git repo on gitlab
-```
-dev init YOUR_GIT_REPO
+dev init YOUR_GIT_REPO_GIT_URL
 ```
 delete example Greeter code
 
