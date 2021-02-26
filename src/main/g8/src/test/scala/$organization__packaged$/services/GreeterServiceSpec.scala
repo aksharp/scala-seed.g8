@@ -9,8 +9,8 @@ import monix.eval.Task
 import monix.execution.Scheduler
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import com.tremorvideo.lib.api.example._
-import com.tremorvideo.lib.api.example.mocks._
+import com.tremorvideo.example._
+import com.tremorvideo.example.mocks._
 
 class GreeterServiceSpec extends AnyWordSpec with Matchers with TestUtils {
 

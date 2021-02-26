@@ -16,7 +16,7 @@ import io.circe.syntax._
 import io.circe.{Encoder, Json}
 import monix.eval.Task
 import monix.execution.Scheduler
-import com.tremorvideo.lib.api.example._
+import com.tremorvideo.example._
 import java.io.File
 import java.net.InetAddress
 import java.util.concurrent.TimeUnit

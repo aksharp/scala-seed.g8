@@ -4,7 +4,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.FixtureAnyWordSpec
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext}
-import com.tremorvideo.lib.api.example._
+import com.tremorvideo.example._
 import org.scalatest._
 import com.tremorvideo.lib.api.observable.ObservableAndTraceableBase
 
@@ -24,7 +24,7 @@ class IntegrationTest extends FixtureAnyWordSpec with Matchers {
     val dc = config.getOrElse("dc", fail("""include env param like so: sbt "it:testOnly * -- -Ddc=iad1 -Denv=canary" """))
     val host = if (env == "local") "localhost" else s"$"$"${env}.$name$.service.$"$"${dc}.consul"
 
-    val client = new com.tremorvideo.lib.api.example.Client(
+    val client = new com.tremorvideo.example.Client(
       host = host
     )
 
@@ -50,7 +50,7 @@ class IntegrationTest extends FixtureAnyWordSpec with Matchers {
     val dc = config.getOrElse("dc", fail("""include env param like so: sbt "it:testOnly * -- -Ddc=iad1 -Denv=canary" """))
     val host = if (env == "local") "localhost" else s"$"$"${env}.$name$.service.$"$"${dc}.consul"
 
-    val client = new com.tremorvideo.lib.api.example.Client(
+    val client = new com.tremorvideo.example.Client(
       host = host
     )
 

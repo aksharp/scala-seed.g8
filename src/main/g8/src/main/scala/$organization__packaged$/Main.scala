@@ -15,7 +15,7 @@ import $organization$.validators.GreetRequestValidator
 import com.typesafe.scalalogging.LazyLogging
 import monix.eval.{Task, TaskApp}
 import monix.execution.Scheduler.Implicits.global
-import com.tremorvideo.lib.api.example.server
+import com.tremorvideo.example.server
 
 object Main extends TaskApp with LazyLogging {
 
