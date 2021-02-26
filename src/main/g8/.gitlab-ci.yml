@@ -9,7 +9,7 @@ variables:
   IAD1_PROD_PODS: 2
   EU1_PROD_PODS: 2
   AP1_PROD_PODS: 2
-  JAVA_VERSION: 13
+  JAVA_VERSION: 15
   CANARY_PODS: 1
 
 ### temporary until dspsharedlibrary fix is in
@@ -22,17 +22,13 @@ test:
   #    - name: aerospike/aerospike-server
   #      alias: aerospike
   script:
-    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-    - yum install -y git java-1.8.0-openjdk sbt
-    - sbt clean test -J-XX:MaxMetaspaceSize=512m ### add it:test after first deploy
+    - sbt clean test -J-XX:MaxMetaspaceSize=512m
   allow_failure: false
 
 artifact:
   stage: build
   image: tremorvideo/centos-jdk15:latest
   script:
-    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-    - yum install -y git java-1.8.0-openjdk sbt
     - sbt universal:packageZipTarball
   artifacts:
     expire_in: 1 week
@@ -46,8 +42,6 @@ iad1-canary test:
   variables:
     NAMESPACE: $name$
   script:
-    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-    - yum install -y git java-1.8.0-openjdk sbt
     - sbt "it:testOnly * -- -Ddc=iad1 -Denv=canary" -J-XX:MaxMetaspaceSize=512m
   allow_failure: true
   when: manual
@@ -58,8 +52,6 @@ iad1-prod test:
   variables:
     NAMESPACE: $name$
   script:
-    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-    - yum install -y git java-1.8.0-openjdk sbt
     - sbt "it:testOnly * -- -Ddc=iad1 -Denv=prod" -J-XX:MaxMetaspaceSize=512m
   allow_failure: true
   when: manual
@@ -70,8 +62,6 @@ eu1-canary test:
   variables:
     NAMESPACE: $name$
   script:
-    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-    - yum install -y git java-1.8.0-openjdk sbt
     - sbt "it:testOnly * -- -Ddc=eu1 -Denv=canary" -J-XX:MaxMetaspaceSize=512m
   allow_failure: true
   when: manual
@@ -82,8 +72,6 @@ eu1-prod test:
   variables:
     NAMESPACE: $name$
   script:
-    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-    - yum install -y git java-1.8.0-openjdk sbt
     - sbt "it:testOnly * -- -Ddc=eu1 -Denv=prod" -J-XX:MaxMetaspaceSize=512m
   allow_failure: true
   when: manual
@@ -94,8 +82,6 @@ ap1-canary test:
   variables:
     NAMESPACE: $name$
   script:
-    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-    - yum install -y git java-1.8.0-openjdk sbt
     - sbt "it:testOnly * -- -Ddc=ap1 -Denv=canary" -J-XX:MaxMetaspaceSize=512m
   allow_failure: true
   when: manual
@@ -106,8 +92,6 @@ ap1-prod test:
   variables:
     NAMESPACE: $name$
   script:
-    - curl https://bintray.com/sbt/rpm/rpm |  tee /etc/yum.repos.d/bintray-sbt-rpm.repo
-    - yum install -y git java-1.8.0-openjdk sbt
     - sbt "it:testOnly * -- -Ddc=ap1 -Denv=prod" -J-XX:MaxMetaspaceSize=512m
   allow_failure: true
   when: manual
