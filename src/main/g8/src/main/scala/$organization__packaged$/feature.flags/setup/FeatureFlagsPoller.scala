@@ -3,8 +3,8 @@ package $organization$.feature.flags.setup
 import $organization$.config.AppConfig
 import cats.Monad
 import cats.implicits._
-import com.tremorvideo.lib.api.feature.flags.FeatureFlagsJson
-import com.tremorvideo.lib.api.observable.ObservableAndTraceable
+import com.tremorvideo.api.feature.flags.FeatureFlagsJson
+import com.tremorvideo.api.observable.ObservableAndTraceable
 import com.tremorvideo.lib.feature.flags.{ConsulFeatureFlagsPoller, FeatureFlagsParent}
 import com.tremorvideo.lib.kafka.producer.TremorKafkaProducer
 import com.typesafe.scalalogging.LazyLogging

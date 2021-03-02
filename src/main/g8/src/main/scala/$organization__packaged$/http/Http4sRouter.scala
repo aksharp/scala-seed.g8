@@ -3,7 +3,7 @@ package $organization$.http
 import cats.effect.{ConcurrentEffect, ExitCode, Resource}
 import $organization$.config.AppConfig
 import $organization$.http.AppHttp4sDsl._
-import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
+import com.tremorvideo.api.services.ObservableAndTraceableService
 import com.typesafe.scalalogging.LazyLogging
 import monix.eval.Task
 import monix.execution.Scheduler

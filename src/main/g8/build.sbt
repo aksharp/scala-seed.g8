@@ -25,9 +25,10 @@ Defaults.itSettings
 val Http4sVersion = "0.21.4"
 
 libraryDependencies ++= Seq(
-  // ff (PRIVATE REPO)
-  "com.tremorvideo" %% "lib-feature-flags" % "3.3.0-SNAPSHOT",
-  "com.tremorvideo" %% "lib-api" % "1.2.0-SNAPSHOT",
+  // ff
+  "com.tremorvideo" %% "lib-feature-flags" % "3.4.0-SNAPSHOT",
+  // api
+  "com.tremorvideo" %% "api" % "1.0.0-SNAPSHOT",
 
   // aksharp
   "io.github.aksharp" %% "scala-type-classes" % "0.1.5",

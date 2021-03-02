@@ -6,7 +6,7 @@ import $organization$.feature.flags._
 import $organization$.feature.flags.setup._
 import $organization$.services._
 import $organization$.http.Http4sRouter
-import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
+import com.tremorvideo.api.services.{CorrelationIdGeneratorService, ObservableAndTraceableService}
 import com.tremorvideo.lib.feature.flags._
 import com.tremorvideo.lib.metrics.LoadMetrics
 import $organization$.processors.GreetRequestProcessor

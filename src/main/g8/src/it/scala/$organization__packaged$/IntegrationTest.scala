@@ -6,7 +6,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext}
 import com.tremorvideo.example._
 import org.scalatest._
-import com.tremorvideo.lib.api.observable.ObservableAndTraceableBase
+import com.tremorvideo.api.observable.ObservableAndTraceableBase
 
 class IntegrationTest extends FixtureAnyWordSpec with Matchers {
 

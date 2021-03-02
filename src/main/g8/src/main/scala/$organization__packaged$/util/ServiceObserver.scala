@@ -2,12 +2,12 @@ package $organization$.util
 
 import $organization$._
 import cats.effect.Clock
-import com.tremorvideo.lib.api.observable.serde.ObservableServiceInstanceKeySerde._
-import com.tremorvideo.lib.api.observable.serde.ObservableServiceInstanceValueSerde._
-import com.tremorvideo.lib.api.observable.ObservableServiceInstanceStartup.ServiceType
-import com.tremorvideo.lib.api.observable._
-import com.tremorvideo.lib.api.feature.flags.FeatureFlagsJson
-import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
+import com.tremorvideo.api.observable.serde.ObservableServiceInstanceKeySerde._
+import com.tremorvideo.api.observable.serde.ObservableServiceInstanceValueSerde._
+import com.tremorvideo.api.observable.ObservableServiceInstanceStartup.ServiceType
+import com.tremorvideo.api.observable._
+import com.tremorvideo.api.feature.flags.FeatureFlagsJson
+import com.tremorvideo.api.services.ObservableAndTraceableService
 import com.tremorvideo.lib.kafka.producer.MonixKafkaProducer
 import $organization$.config.AppConfig
 import com.tremorvideo.lib.feature.flags.FeatureFlagsParent

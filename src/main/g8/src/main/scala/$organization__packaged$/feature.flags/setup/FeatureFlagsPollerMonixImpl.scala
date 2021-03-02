@@ -2,9 +2,9 @@ package $organization$.feature.flags.setup
 
 import $organization$.config.AppConfig
 import $organization$.util.ThreadPools
-import com.tremorvideo.lib.api.feature.flags.FeatureFlagsJson
-import com.tremorvideo.lib.api.observable.ObservableAndTraceable
-import com.tremorvideo.lib.feature.flags.{ConsulFeatureFlagsPoller, FeatureFlags, MonixConsulFeatureFlagsPoller}
+import com.tremorvideo.api.feature.flags.FeatureFlagsJson
+import com.tremorvideo.api.observable.ObservableAndTraceable
+import com.tremorvideo.feature.flags.{ConsulFeatureFlagsPoller, FeatureFlags, MonixConsulFeatureFlagsPoller}
 import com.tremorvideo.lib.kafka.producer.{MonixKafkaProducer, TremorKafkaProducer, TremorKafkaProducerConfig}
 import com.typesafe.scalalogging.LazyLogging
 import monix.eval.Task
@@ -32,8 +32,8 @@ class FeatureFlagsPollerMonixImpl extends FeatureFlagsPoller[Task] with LazyLogg
                                appConfig: AppConfig
                              ): Task[TremorKafkaProducer[Task, ObservableAndTraceable, FeatureFlagsJson]] =
     Task {
-      import com.tremorvideo.lib.api.feature.flags.serde.FeatureFlagsJsonSerde._
-      import com.tremorvideo.lib.api.observable.serde.ObservableAndTraceableSerde._
+      import com.tremorvideo.api.feature.flags.serde.FeatureFlagsJsonSerde._
+      import com.tremorvideo.api.observable.serde.ObservableAndTraceableSerde._
 
       new MonixKafkaProducer[ObservableAndTraceable, FeatureFlagsJson](
         config = TremorKafkaProducerConfig(

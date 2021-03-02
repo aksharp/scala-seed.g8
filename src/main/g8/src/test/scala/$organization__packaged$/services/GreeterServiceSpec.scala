@@ -2,8 +2,8 @@ package $organization$.services
 
 import $organization$.config.AppConfig
 import $organization$.feature.flags.GreetFeatureFlags
-import com.tremorvideo.lib.api.observable.ObservableAndTraceable
-import com.tremorvideo.lib.api.fp.util.ObservableAndTraceableService
+import com.tremorvideo.api.observable.ObservableAndTraceable
+import com.tremorvideo.api.services.ObservableAndTraceableService
 import $organization$.test.util.TestUtils
 import monix.eval.Task
 import monix.execution.Scheduler

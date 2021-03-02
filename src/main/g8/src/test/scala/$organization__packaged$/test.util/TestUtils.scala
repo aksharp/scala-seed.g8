@@ -3,9 +3,9 @@ package $organization$.test.util
 import cats.effect.Clock
 import $organization$.config.{AppConfig, ConsulDynamicConfig, HttpConfig}
 import $organization$.feature.flags.GreetFeatureFlags
-import com.tremorvideo.lib.api.fp.util.{CorrelationIdGeneratorService, ObservableAndTraceableService}
-import com.tremorvideo.lib.api.feature.flags.FeatureFlagsJson
-import com.tremorvideo.lib.api.observable.{ObservableAndTraceable, ObservableAndTraceableBase}
+import com.tremorvideo.api.services.{CorrelationIdGeneratorService, ObservableAndTraceableService}
+import com.tremorvideo.api.feature.flags.FeatureFlagsJson
+import com.tremorvideo.api.observable.{ObservableAndTraceable, ObservableAndTraceableBase}
 import com.tremorvideo.lib.feature.flags.{Debug, DebugToConsole, DoNotObserveByDefault, Observe}
 import com.tremorvideo.lib.kafka.producer.TremorKafkaProducerConfig
 import com.tremorvideo.lib.metrics.{MetricsReporter, NoOp}
