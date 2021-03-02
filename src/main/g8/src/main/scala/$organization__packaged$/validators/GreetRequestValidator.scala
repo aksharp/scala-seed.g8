@@ -2,7 +2,7 @@ package $organization$.validators
 
 import $organization$._
 import io.github.aksharp.tc._
-import com.tremorvideo.example._
+import com.tremorvideo.api.example._
 
 class GreetRequestValidator[F[_]] extends Validator[F, GreetRequest, GreetResponse] {
 

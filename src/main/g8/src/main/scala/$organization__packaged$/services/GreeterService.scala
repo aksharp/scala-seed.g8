@@ -10,7 +10,7 @@ import monix.eval.Task
 import monix.execution.Scheduler.global
 import io.github.aksharp.tc._
 import scala.concurrent.Future
-import com.tremorvideo.example._
+import com.tremorvideo.api.example._
 
 class GreeterService(
                       greetRequestValidator: Validator[Task, GreetRequest, GreetResponse],

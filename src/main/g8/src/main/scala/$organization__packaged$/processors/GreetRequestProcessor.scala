@@ -4,7 +4,7 @@ import cats.Applicative
 import $organization$._
 import $organization$.feature.flags._
 import io.github.aksharp.tc._
-import com.tremorvideo.example._
+import com.tremorvideo.api.example._
 
 class GreetRequestProcessor[F[_]] extends Processor[F, GreetFeatureFlags, GreetRequest, GreetResponse] {
 

@@ -9,7 +9,7 @@ import monix.eval.Task
 import monix.execution.Scheduler
 import org.scalacheck.Prop.forAll
 import org.scalacheck.Properties
-import com.tremorvideo.example._
+import com.tremorvideo.api.example._
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -21,7 +21,7 @@ object GreeterServiceProps extends Properties("GreeterServiceProps") with TestUt
   implicit val appConfig: AppConfig = anAppConfig()
   implicit val scheduler: Scheduler = Scheduler.global
   // code generated arbitraries
-  import com.tremorvideo.example.mocks.Arbitraries._
+  import com.tremorvideo.api.example.mocks.Arbitraries._
 
   // service under test
   val greeterService = aGreeterService
