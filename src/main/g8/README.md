@@ -113,7 +113,7 @@ dev test eu1 prod
 dev test ap1 prod
 ```
 
-## 15. In source code, check out Unit Tests and Property based testing with an example in tests
+## 15. In source code udpate api dependency to latest version, check out Unit Tests and Property based testing with an example in tests
 
 
 -----------
@@ -127,9 +127,9 @@ dev init YOUR_GIT_REPO_GIT_URL
 ```
 delete example Greeter code
 
-Add API proto definitions in lib-api and publish it
+Add API proto definitions in api and publish it
 
-Update build.sbt with new lib-api version
+Update build.sbt with new api version
 
 Write code behind the api, unit tests, property tests and post deployment tests
 
