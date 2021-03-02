@@ -6,7 +6,7 @@ This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dep
 3. Enum code generation for proto (in scalapb-grpc-client-server-mocks-codegen-plugin)
 4. Observability control (example: observe flag passed so all downstream calls will get observed, even if on app level observability is turned off)
 5. Traffic control (example: go through canary stack) on generated grpc client (via plugin) should check if caller passed "canary flag" and callee will also call downstream canary
-6. maybe proto2slate documentation, lib-api or per service?
+6. maybe proto2slate documentation, api or per service?
 7. Storage examples: CSS / MySQL / Vertica / Kafka / Redis / Aerospike examples
 
 // WORKING:
@@ -20,7 +20,7 @@ This is a WORK IN PROGRESS [Giter8][g8] template for Scala seed project with dep
 
 Libraries:
 1) lib-kafka
-2) lib-api
+2) api
 3) lib-feature-flags
 4) lib-metrics
 5) scala-type-classes (io.github.aksharp)
