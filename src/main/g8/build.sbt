@@ -28,7 +28,7 @@ libraryDependencies ++= Seq(
   // ff
   "com.tremorvideo" %% "lib-feature-flags" % "3.4.0-SNAPSHOT",
   // api
-  "com.tremorvideo" %% "api" % "1.0.1",
+  "com.tremorvideo" %% "api" % "1.1.0",
 
   // aksharp
   "io.github.aksharp" %% "scala-type-classes" % "0.1.5",
