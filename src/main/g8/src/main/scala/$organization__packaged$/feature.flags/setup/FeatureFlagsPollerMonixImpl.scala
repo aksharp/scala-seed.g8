@@ -4,7 +4,7 @@ import $organization$.config.AppConfig
 import $organization$.util.ThreadPools
 import com.tremorvideo.api.feature.flags.FeatureFlagsJson
 import com.tremorvideo.api.observable.ObservableAndTraceable
-import com.tremorvideo.feature.flags.{ConsulFeatureFlagsPoller, FeatureFlags, MonixConsulFeatureFlagsPoller}
+import com.tremorvideo.lib.feature.flags.{ConsulFeatureFlagsPoller, FeatureFlags, MonixConsulFeatureFlagsPoller}
 import com.tremorvideo.lib.kafka.producer.{MonixKafkaProducer, TremorKafkaProducer, TremorKafkaProducerConfig}
 import com.typesafe.scalalogging.LazyLogging
 import monix.eval.Task

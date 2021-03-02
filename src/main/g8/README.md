@@ -3,7 +3,7 @@
 ## Detailed Steps
 ## 1. DO THIS FIRST
 You need `dev` tool that automates lots of manual scripts. Get it from here:
-`git clone git@github.com:aksharp/dev.git`
+`git clone git@git.tremorvideodsp.com:vh/dev.git`
 Then add alias to it in your shell (zshrc or bashrc) and restart terminal
 `alias dev="~/path-to-dev-project/dev"`
 
