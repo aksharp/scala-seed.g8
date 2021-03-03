@@ -10,7 +10,7 @@ import $organization$.services._
 import $organization$.http.Http4sRouter
 import com.tremorvideo.api.services.{CorrelationIdGeneratorService, ObservableAndTraceableService}
 import com.tremorvideo.lib.feature.flags._
-import com.tremorvideo.lib.metrics.LoadMetrics
+import com.tremorvideo.lib.metrics.{LoadMetrics, Metrics}
 import $organization$.processors.GreetRequestProcessor
 import $organization$.util.ServiceObserverImpl
 import $organization$.validators.GreetRequestValidator
@@ -31,9 +31,8 @@ object Main extends TaskApp with LazyLogging {
     implicit val appConfig: AppConfig = AppConfigLoader.loadOrExitWithErrorMessage(args.toArray)
 
     for {
-      // todo: make implicit
       // datadog metrics
-      metrics <- LoadMetrics[Task](appConfig.metrics)
+      implicit0(metrics: Metrics) <- LoadMetrics[Task](appConfig.metrics)
 
       // abstracts date and time so app can be easily tested
       clock = Clock.create[Task]
