@@ -1,6 +1,5 @@
 package $organization$.config
 
-import cats.Monad
 import cats.effect.{Async, Blocker, ContextShift, Resource}
 import com.typesafe.scalalogging.LazyLogging
 import doobie.hikari.HikariTransactor
@@ -18,9 +17,7 @@ case class DatabaseConfig(
 
   val transactorResource: Resource[Task, HikariTransactor[Task]] = getTransactor[Task]
 
-  private def getTransactor[F[_] : Async : ContextShift](
-                                                  implicit M: Monad[F]
-                                                ): Resource[F, HikariTransactor[F]] = {
+  private def getTransactor[F[_] : Async : ContextShift]: Resource[F, HikariTransactor[F]] = {
   // Resource yielding a transactor configured with a bounded connect EC and an unbounded
   // transaction EC. Everything will be closed and shut down cleanly after use.
     for {
