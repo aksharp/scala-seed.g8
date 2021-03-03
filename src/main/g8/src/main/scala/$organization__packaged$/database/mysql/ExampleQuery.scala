@@ -29,7 +29,7 @@ class ExampleQuery(
             SELECT some_id           as id,
                    some_name         as name
             from some_table
-            where some_other_id = $id
+            where some_other_id = $"$"$id
             ;
           """
       )
