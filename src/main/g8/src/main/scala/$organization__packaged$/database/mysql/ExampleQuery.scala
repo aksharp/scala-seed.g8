@@ -20,10 +20,10 @@ class ExampleQuery(
 
   def query(
              id: Long
-           ): Task[Vector[Spend]] = {
+           ): Task[Vector[MyDomainObject]] = {
 
     for {
-      daos <- ssdbg.query[DAO](
+      daos <- mysql.query[DAO](
         sql =
           sql"""
             SELECT some_id           as id,
