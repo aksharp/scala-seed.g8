@@ -40,7 +40,7 @@ case class DatabaseConfig(
   def getPassword: String = {
     val pwd = scala.sys.env(passwordEnvVar)
     if (pwd.isEmpty)
-      logger.error(s"$passwordEnvVar env variable is not set or password is empty")
+      logger.error(s"$"$"$passwordEnvVar env variable is not set or password is empty")
     pwd
   }
 }
