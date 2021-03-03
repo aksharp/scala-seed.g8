@@ -5,43 +5,45 @@ import doobie.Read
 import doobie.implicits._
 import doobie.util.fragment.Fragment
 import monix.eval.Task
+import cats.effect.{Bracket, Resource}
+import doobie.hikari.HikariTransactor
 
 trait Queryable[F[_]] {
+
+  val transactorResource: Resource[F, HikariTransactor[F]]
+
   def query[O: Read](
                       sql: Fragment
-                    ): F[Vector[O]]
+                    )
+                    (
+                      implicit B: Bracket[F, Throwable]
+                    ): F[Vector[O]] = {
+    transactorResource
+      .use(
+        transactor =>
+          sql.query[O].to[Vector].transact(transactor)
+      )
+  }
 }
 
 class MySql(
              implicit appConfig: AppConfig
            ) extends Queryable[Task] {
-  override def query[O: Read](
-                               sql: Fragment
-                             ): Task[Vector[O]] = {
+
+  override val transactorResource: Resource[Task, HikariTransactor[Task]] =
     appConfig
       .mysqlConfig
       .databaseConfig
       .transactorResource
-      .use(
-        transactor =>
-          sql.query[O].to[Vector].transact(transactor)
-      )
-  }
 }
 
 class Vertica(
                implicit appConfig: AppConfig
              ) extends Queryable[Task] {
-  override def query[O: Read](
-                               sql: Fragment
-                             ): Task[Vector[O]] = {
+
+  override val transactorResource: Resource[Task, HikariTransactor[Task]] =
     appConfig
       .verticaConfig
       .databaseConfig
       .transactorResource
-      .use(
-        transactor =>
-          sql.query[O].to[Vector].transact(transactor)
-      )
-  }
 }
