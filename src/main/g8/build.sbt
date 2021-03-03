@@ -46,6 +46,12 @@ libraryDependencies ++= Seq(
   // date/time
   "joda-time" % "joda-time" % "2.10.9",
 
+  // database
+  "mysql" % "mysql-connector-java" % "8.0.20",
+  "org.tpolecat" %% "doobie-core" % "0.9.4",
+  "org.tpolecat" %% "doobie-postgres" % "0.9.4",
+  "org.tpolecat" %% "doobie-hikari" % "0.9.4",
+
   // test
   "org.scalatest" %% "scalatest" % "3.2.3",
   "org.scalacheck" %% "scalacheck" % "1.15.2",

@@ -14,8 +14,14 @@ case class AppConfig(
                       observe: Observe,
                       grpcServerPort: Int,
                       observableStaticConfigProducer: TremorKafkaProducerConfig,
-                      observableDynamicConfigProducer: TremorKafkaProducerConfig
+                      observableDynamicConfigProducer: TremorKafkaProducerConfig,
+                      mysqlConfig: MySqlConfig,
+                      verticaConfig: VerticaConfig
                     ) extends FeatureFlagsConfig
+
+case class MySqlConfig(databaseConfig: DatabaseConfig)
+
+case class VerticaConfig(databaseConfig: DatabaseConfig)
 
 case class ConsulDynamicConfig(
                                 consulHostname: String,

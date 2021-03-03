@@ -2,6 +2,8 @@ package $organization$
 
 import cats.effect.{Clock, ExitCode}
 import $organization$.config._
+import $organization$.database._
+import $organization$.database.mysql._
 import $organization$.feature.flags._
 import $organization$.feature.flags.setup._
 import $organization$.services._
@@ -56,6 +58,13 @@ object Main extends TaskApp with LazyLogging {
       serviceObserver = new ServiceObserverImpl(
         clock = clock,
         supportedFeatureFlags = supportedFeatureFlags
+      )
+
+      // database
+      mysql = new MySql()
+      vertica = new Vertica()
+      exampleQuery = new ExampleQuery(
+        mysql = mysql
       )
 
       // application code: services, caches, etc.
