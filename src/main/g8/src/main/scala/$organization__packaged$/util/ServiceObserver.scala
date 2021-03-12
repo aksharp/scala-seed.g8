@@ -56,7 +56,7 @@ class ServiceObserverImpl(
       ),
       value = ObservableServiceInstanceStartup(
         name = appConfig.appName,
-        version = Option(getClass.getPackage.getImplementationVersion),
+        version = Option(getClass.getPackage.getImplementationVersion).getOrElse("missing version"),
         dataCenter = appConfig.dataCenter,
         hostname = InetAddress.getLocalHost.getHostName,
         ip = InetAddress.getLocalHost.getHostAddress,
