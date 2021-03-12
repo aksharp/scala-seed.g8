@@ -1,7 +1,7 @@
 package $organization$.test.util
 
 import cats.effect.Clock
-import $organization$.config.{AppConfig, ConsulDynamicConfig, HttpConfig}
+import $organization$.config._
 import $organization$.feature.flags.GreetFeatureFlags
 import com.tremorvideo.api.services.{CorrelationIdGeneratorService, ObservableAndTraceableService}
 import com.tremorvideo.api.feature.flags.FeatureFlagsJson
@@ -104,6 +104,26 @@ trait TestUtils extends Eventually {
                      clientId = "$name$-service",
                      topic = "observable-feature-flags",
                      bootstrapServers = List("localhost:6001")
+                   ),
+                   mysqlConfig: MySqlConfig = MySqlConfig(
+                     databaseConfig = DatabaseConfig(
+                       url = "",
+                       driver = "",
+                       user = "",
+                       passwordEnvVar = "",
+                       timeZone = "",
+                       poolSize = 1
+                     )
+                   ),
+                   verticaConfig: VerticaConfig = VerticaConfig(
+                     databaseConfig = DatabaseConfig(
+                       url = "",
+                       driver = "",
+                       user = "",
+                       passwordEnvVar = "",
+                       timeZone = "",
+                       poolSize = 1
+                     )
                    )
                  ): AppConfig = AppConfig(
     http = http,
@@ -115,7 +135,9 @@ trait TestUtils extends Eventually {
     observableStaticConfigProducer = observableStaticConfigProducer,
     observableDynamicConfigProducer = observableDynamicConfigProducer,
     debug = debug,
-    observe = observe
+    observe = observe,
+    mysqlConfig = mysqlConfig,
+    verticaConfig = verticaConfig
   )
 
   val genGreetFeatureFlags: Gen[GreetFeatureFlags] =
